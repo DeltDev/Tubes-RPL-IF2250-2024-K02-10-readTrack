@@ -1,0 +1,5 @@
+test:
+  stage: test
+  script:
+    - pip install -r requirements.txt
+    - echo "Nanti masukkin command buat unit testing di sini"
