@@ -64,7 +64,7 @@ def create(root):
                              height=50,
                              width=75,
                              fg_color= selFrameCol,
-                             command=lambda: BC.indicate(indicateArr,inginDibacaIndic,labelCol,selFrameCol,buttonArr,inginDibacaButton))
+                             command=lambda: BC.inginDibacaPage(bookListFrame,indicateArr,inginDibacaIndic,labelCol,selFrameCol,buttonArr,inginDibacaButton))
   inginDibacaButton.place(x=25,y=15)
   sedangDibacaIndic = ctk.CTkLabel(bookSelectionFrame,text='',height=50,width=75)
   sedangDibacaIndic.place(x=15,y=80)
@@ -74,7 +74,7 @@ def create(root):
                              height=50,
                              width=75,
                              fg_color=selFrameCol,
-                             command=lambda: BC.indicate(indicateArr,sedangDibacaIndic,labelCol,selFrameCol,buttonArr,sedangDibacaButton))
+                             command=lambda: BC.sedangDibacaPage(bookListFrame,indicateArr,sedangDibacaIndic,labelCol,selFrameCol,buttonArr,sedangDibacaButton))
   sedangDibacaButton.place(x=25,y=80)
   sudahDibacaIndic = ctk.CTkLabel(bookSelectionFrame,text='',height=50,width=75)
   sudahDibacaIndic.place(x=15,y=145)
@@ -84,7 +84,7 @@ def create(root):
                              height=50,
                              width=75,
                              fg_color=selFrameCol,
-                             command=lambda: BC.indicate(indicateArr,sudahDibacaIndic,labelCol,selFrameCol,buttonArr,sudahDibacaButton))
+                             command=lambda: BC.sudahDibacaPage(bookListFrame,indicateArr,sudahDibacaIndic,labelCol,selFrameCol,buttonArr,sudahDibacaButton))
   indicateArr = [inginDibacaIndic,sedangDibacaIndic,sudahDibacaIndic]
   buttonArr = [inginDibacaButton,sedangDibacaButton,sudahDibacaButton]
   sudahDibacaButton.place(x=25,y=145)
