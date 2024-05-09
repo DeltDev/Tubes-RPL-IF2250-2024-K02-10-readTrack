@@ -11,10 +11,12 @@ def create(root):
                              height=720)
   topFrame = ctk.CTkFrame(masterFrame,
                           width=1280,
-                          height = 160)
+                          height = 160,
+                          corner_radius=0)
   bottomFrame = ctk.CTkFrame(masterFrame,
                             width=1280,
-                            height = 580)
+                            height = 580,
+                            corner_radius=0)
   logoFrame = ctk.CTkFrame(topFrame,
                             width = 130,
                             height = 130)
@@ -22,7 +24,7 @@ def create(root):
                                     width = 130,
                                     height = 550)
   bookListFrame = ctk.CTkFrame(bottomFrame,
-                               width = 1085,
+                               width = 1105,
                                height = 550)
   masterFrame.pack()
   topFrame.pack_propagate(False)
