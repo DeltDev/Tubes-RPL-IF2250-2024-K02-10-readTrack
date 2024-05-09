@@ -13,13 +13,15 @@ def create(root):
                           width=1280,
                           height = 160,
                           corner_radius=0)
+  topFrameFG = topFrame.cget("fg_color")
   bottomFrame = ctk.CTkFrame(masterFrame,
                             width=1280,
                             height = 580,
                             corner_radius=0)
   logoFrame = ctk.CTkFrame(topFrame,
                             width = 130,
-                            height = 130)
+                            height = 130,
+                            fg_color=topFrameFG)
   bookSelectionFrame = ctk.CTkFrame(bottomFrame,
                                     width = 130,
                                     height = 550)
