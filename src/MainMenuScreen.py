@@ -24,9 +24,9 @@ def create(root):
                             fg_color=topFrameFG)
   bookSelectionFrame = ctk.CTkFrame(bottomFrame,
                                     width = 130,
-                                    height = 550)
-  bookListFrame = ctk.CTkFrame(bottomFrame,
-                               width = 1105,
+                                    height = 560)
+  bookListFrame = ctk.CTkScrollableFrame(bottomFrame,
+                               width = 1080,
                                height = 550)
   masterFrame.pack()
   topFrame.pack_propagate(False)
@@ -37,7 +37,6 @@ def create(root):
   logoFrame.pack(side=LEFT,padx=15)
   bookSelectionFrame.pack_propagate(False)
   bookSelectionFrame.pack(side=LEFT,padx=15)
-  bookListFrame.pack_propagate(False)
   bookListFrame.pack(side=LEFT)
   readTrackImageLabel = ctk.CTkLabel(logoFrame, text="", image=LL.loadLogo(175,175), width=200, height= 200)
   readTrackImageLabel.pack()
@@ -46,6 +45,8 @@ def create(root):
   menuLabel.pack(pady=20)
   menuLabel2 = ctk.CTkLabel(topFrame, text="readTrack v1.0", font=("Segoe UI Light", 24))
   menuLabel2.pack(side=TOP)
+  for x in range(20):
+    ctk.CTkButton(bookListFrame, text="dummy buttons").pack(pady =20)
   backButton = ctk.CTkButton(bookSelectionFrame,
                              text="Kembali",
                              command=lambda: BC.switchToSplash(root),
