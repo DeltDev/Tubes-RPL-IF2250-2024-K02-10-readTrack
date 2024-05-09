@@ -23,10 +23,10 @@ def create(root):
                             height = 130,
                             fg_color=topFrameFG)
   bookSelectionFrame = ctk.CTkFrame(bottomFrame,
-                                    width = 130,
+                                    width = 200,
                                     height = 560)
   bookListFrame = ctk.CTkScrollableFrame(bottomFrame,
-                               width = 1080,
+                               width = 1010,
                                height = 550)
   masterFrame.pack()
   topFrame.pack_propagate(False)
@@ -46,12 +46,45 @@ def create(root):
   menuLabel2 = ctk.CTkLabel(topFrame, text="readTrack v1.0", font=("Segoe UI Light", 24))
   menuLabel2.pack(side=TOP)
   for x in range(20):
-    ctk.CTkButton(bookListFrame, text="dummy buttons").pack(pady =20)
+    ctk.CTkButton(bookListFrame, text="dummy buttons").pack(pady =20)  
   backButton = ctk.CTkButton(bookSelectionFrame,
                              text="Kembali",
                              command=lambda: BC.switchToSplash(root),
                              font=("Segoe UI Light", 20),
                              height=50,
                              width=75)
-  backButton.pack_propagate()
   backButton.pack(side=BOTTOM,pady=15)
+  labelCol = backButton.cget("fg_color")
+  selFrameCol = bookSelectionFrame.cget("fg_color")
+  inginDibacaIndic = ctk.CTkLabel(bookSelectionFrame,text='',height=50,width=75)
+  inginDibacaIndic.place(x=15,y=15)
+  inginDibacaButton = ctk.CTkButton(bookSelectionFrame,
+                             text="Ingin Dibaca",
+                             font=("Segoe UI Light", 20),
+                             height=50,
+                             width=75,
+                             fg_color= selFrameCol,
+                             command=lambda: BC.indicate(indicateArr,inginDibacaIndic,labelCol,selFrameCol,buttonArr,inginDibacaButton))
+  inginDibacaButton.place(x=25,y=15)
+  sedangDibacaIndic = ctk.CTkLabel(bookSelectionFrame,text='',height=50,width=75)
+  sedangDibacaIndic.place(x=15,y=80)
+  sedangDibacaButton = ctk.CTkButton(bookSelectionFrame,
+                             text="Sedang Dibaca",
+                             font=("Segoe UI Light", 20),
+                             height=50,
+                             width=75,
+                             fg_color=selFrameCol,
+                             command=lambda: BC.indicate(indicateArr,sedangDibacaIndic,labelCol,selFrameCol,buttonArr,sedangDibacaButton))
+  sedangDibacaButton.place(x=25,y=80)
+  sudahDibacaIndic = ctk.CTkLabel(bookSelectionFrame,text='',height=50,width=75)
+  sudahDibacaIndic.place(x=15,y=145)
+  sudahDibacaButton = ctk.CTkButton(bookSelectionFrame,
+                             text="Sudah Dibaca",
+                             font=("Segoe UI Light", 20),
+                             height=50,
+                             width=75,
+                             fg_color=selFrameCol,
+                             command=lambda: BC.indicate(indicateArr,sudahDibacaIndic,labelCol,selFrameCol,buttonArr,sudahDibacaButton))
+  indicateArr = [inginDibacaIndic,sedangDibacaIndic,sudahDibacaIndic]
+  buttonArr = [inginDibacaButton,sedangDibacaButton,sudahDibacaButton]
+  sudahDibacaButton.place(x=25,y=145)
