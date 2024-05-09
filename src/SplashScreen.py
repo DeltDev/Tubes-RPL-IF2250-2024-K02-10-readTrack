@@ -2,22 +2,27 @@ from tkinter import *
 import customtkinter as ctk
 from PIL import Image
 import ButtonController as BC
-#setup gambar buat splash screen
-readTrackImage = ctk.CTkImage(light_image=Image.open('images/readTracklogo.png'),
-                               dark_image=Image.open('images/readTracklogo.png'),
-                               size=(400, 400))
+import LogoLoader as LL
+
 #buat 
 def create(root):
   for widget in root.winfo_children():
       widget.destroy()
-  readTrackLabel = ctk.CTkLabel(root,
-                                text="readTrack",
+  splashFrame = ctk.CTkFrame(root,
+                             border_color="#247541",
+                             border_width=3,
+                             width=1260,
+                             height = 700)
+  splashFrame.pack_propagate(False)
+  splashFrame.pack(padx = 10, pady = 10)
+  readTrackLabel = ctk.CTkLabel(splashFrame,
+                                text="readTrack v1.0",
                                 font=("Segoe UI Light",36))
   readTrackLabel.pack(pady=50)
-  readTrackImageLabel = ctk.CTkLabel(root, text="", image=readTrackImage)
+  readTrackImageLabel = ctk.CTkLabel(splashFrame, text="", image=LL.loadLogo(400,400))
   readTrackImageLabel.pack(pady=0)
 
-  startButton = ctk.CTkButton(root,
+  startButton = ctk.CTkButton(splashFrame,
                               text="Mulai",
                               command=lambda: BC.switchToMenu(root),
                               font=("Segoe UI Light", 20),
