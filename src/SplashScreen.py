@@ -9,10 +9,8 @@ def create(root):
   for widget in root.winfo_children():
       widget.destroy()
   splashFrame = ctk.CTkFrame(root,
-                             border_color="#247541",
-                             border_width=3,
-                             width=1260,
-                             height = 700)
+                             width=1280,
+                             height = 720)
   splashFrame.pack_propagate(False)
   splashFrame.pack(padx = 10, pady = 10)
   readTrackLabel = ctk.CTkLabel(splashFrame,
