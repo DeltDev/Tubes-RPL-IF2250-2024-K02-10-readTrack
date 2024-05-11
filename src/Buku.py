@@ -28,11 +28,11 @@ class BukuSedangDibaca(Buku):
         self.catatan = catatan
     
     def editBuku(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, halamanTerakhir: int, tanggalMulaiBaca: datetime, hariPembacaan:int, catatan:str) -> None:
+        super().editBuku(judul, penulis, penerbit, totalHalaman)
         self.halamanTerakhir = halamanTerakhir
         self.tanggalMulaiBaca = tanggalMulaiBaca
         self.hariPembacaan = hariPembacaan
         self.catatan = catatan
-        return super().editBuku(judul, penulis, penerbit, totalHalaman)
     
 class BukuSudahDibaca(Buku):
     def __init__(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, hariSelesai: int, catatan: str) -> None:
@@ -41,9 +41,9 @@ class BukuSudahDibaca(Buku):
         self.catatan = catatan
     
     def editBuku(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, hariSelesai: int, catatan: str) -> None:
+        super().editBuku(judul, penulis, penerbit, totalHalaman)
         self.hariSelesai = hariSelesai
         self.catatan = catatan
-        return super().editBuku(judul, penulis, penerbit, totalHalaman)
 
 class DaftarBukuInginDibaca:
     listBukuInginDibaca : list[BukuInginDibaca] = pickle.load(open("db/BukuInginDibaca.dat", "rb"))
