@@ -1,7 +1,7 @@
 import SplashScreen as ss
 import MainMenuScreen as mms
 import customtkinter as ctk
-
+import BukuInginDibacaPage as BID
 #tombol untuk pindah ke menu utama
 def switchToMenu(root):
   mms.create(root) 
@@ -13,16 +13,15 @@ def inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,cu
    for widget in root.winfo_children():
       widget.destroy()
    indicate(indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
-   lb = ctk.CTkLabel(root, text="Ini adalah halaman yang berisi buku yang ingin dibaca", font=("Segoe UI Light",24))
+   lb = ctk.CTkLabel(root, text="Daftar buku yang ingin dibaca", font=("Segoe UI Light",24))
    lb.pack(pady=15)
-   for x in range(20):
-        ctk.CTkButton(root, text="Ingin dibaca dummy button").pack(pady =20)
+   BID.createInginDibacaPage(root,color)
 #tombol untuk menampilkan semua buku yang sedang dibaca
 def sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton):
    for widget in root.winfo_children():
       widget.destroy()
    indicate(indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
-   lb = ctk.CTkLabel(root, text="Ini adalah halaman yang berisi buku yang sedang dibaca", font=("Segoe UI Light",24))
+   lb = ctk.CTkLabel(root, text="Daftar buku yang sedang dibaca", font=("Segoe UI Light",24))
    lb.pack(pady=15)
    for x in range(20):
         ctk.CTkButton(root, text="Sedang dibaca dummy button").pack(pady =20)
@@ -31,7 +30,7 @@ def sudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,cu
    for widget in root.winfo_children():
       widget.destroy()
    indicate(indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
-   lb = ctk.CTkLabel(root, text="Ini adalah halaman yang berisi buku yang sudah dibaca", font=("Segoe UI Light",24))
+   lb = ctk.CTkLabel(root, text="Daftar buku yang sudah dibaca", font=("Segoe UI Light",24))
    lb.pack(pady=15)
    for x in range(20):
         ctk.CTkButton(root, text="Sudah dibaca dummy button").pack(pady =20)        

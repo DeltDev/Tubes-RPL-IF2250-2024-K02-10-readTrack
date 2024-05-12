@@ -45,8 +45,8 @@ def create(root):
   menuLabel.pack(pady=20)
   menuLabel2 = ctk.CTkLabel(topFrame, text="readTrack v1.0", font=("Segoe UI Light", 24))
   menuLabel2.pack(side=TOP)
-  for x in range(20):
-    ctk.CTkButton(bookListFrame, text="dummy buttons").pack(pady =20)  
+  welcomeLabel = ctk.CTkLabel(bookListFrame, text="Selamat datang di readTrack!\nSilakan akses buku-buku Anda di menu yang ada di sebelah kiri layar ini.", font=("Segoe UI Light", 24))
+  welcomeLabel.pack(pady=10)
   backButton = ctk.CTkButton(bookSelectionFrame,
                              text="Kembali",
                              command=lambda: BC.switchToSplash(root),
