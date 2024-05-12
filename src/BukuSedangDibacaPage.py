@@ -53,7 +53,7 @@ def createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,butto
                                       font=("Segoe UI Light", 20))
         bookNoteLabel.place(x=20,y=240)
 
-        #tombol untuk memindahkan buku ke list buku yang sedang dibaca
+        #tombol untuk mengedit data buku
         editBukuButton = ctk.CTkButton(bookFrame,
                                         width = 150,
                                         height=40,
@@ -62,7 +62,7 @@ def createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,butto
                                         command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: editBukuPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
         editBukuButton.place(x=620,y=340)
 
-        #tombol untuk menghapus buku yang ingin dibaca
+        #tombol untuk menghapus buku yang sedang dibaca
         hapusBukuButton = ctk.CTkButton(bookFrame,
                                         width = 150,
                                         height=40,

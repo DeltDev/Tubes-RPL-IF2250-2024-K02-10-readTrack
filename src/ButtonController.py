@@ -3,6 +3,7 @@ import MainMenuScreen as mms
 import customtkinter as ctk
 import BukuInginDibacaPage as BID
 import BukuSedangDibacaPage as BSD
+import BukuSudahDibacaPage as BSD2
 #tombol untuk pindah ke menu utama
 def switchToMenu(root):
   mms.create(root) 
@@ -32,8 +33,7 @@ def sudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,cu
    indicate(indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
    lb = ctk.CTkLabel(root, text="Daftar buku yang sudah dibaca", font=("Segoe UI Light",24))
    lb.pack(pady=15)
-   for x in range(20):
-        ctk.CTkButton(root, text="Sudah dibaca dummy button").pack(pady =20)        
+   BSD2.createSudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)       
 #perintah untuk mengubah indikator tombol
 def indicate(indicatorArr,indicator, color,defaultColor,buttonArr,currentButton):
    hideAllIndicators(indicatorArr,defaultColor,buttonArr)
