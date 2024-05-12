@@ -1,5 +1,4 @@
 import pickle
-from datetime import datetime
 
 class Buku:
     def __init__(self, judul: str, penulis: str, penerbit: str, totalHalaman:int) -> None:
@@ -20,14 +19,14 @@ class BukuInginDibaca(Buku):
         super().__init__(judul, penulis, penerbit, totalHalaman)
 
 class BukuSedangDibaca(Buku):
-    def __init__(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, halamanTerakhir: int, tanggalMulaiBaca: datetime, hariPembacaan:int, catatan:str) -> None:
+    def __init__(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, halamanTerakhir: int, tanggalMulaiBaca: str, hariPembacaan:int, catatan:str) -> None:
         super().__init__(judul, penulis, penerbit, totalHalaman)
         self.halamanTerakhir = halamanTerakhir
         self.tanggalMulaiBaca = tanggalMulaiBaca
         self.hariPembacaan = hariPembacaan
         self.catatan = catatan
     
-    def editBuku(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, halamanTerakhir: int, tanggalMulaiBaca: datetime, hariPembacaan:int, catatan:str) -> None:
+    def editBuku(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, halamanTerakhir: int, tanggalMulaiBaca: str, hariPembacaan:int, catatan:str) -> None:
         super().editBuku(judul, penulis, penerbit, totalHalaman)
         self.halamanTerakhir = halamanTerakhir
         self.tanggalMulaiBaca = tanggalMulaiBaca
@@ -46,7 +45,7 @@ class BukuSudahDibaca(Buku):
         self.catatan = catatan
 
 class DaftarBukuInginDibaca:
-    listBukuInginDibaca : list[BukuInginDibaca] = pickle.load(open("db/BukuInginDibaca.dat", "rb"))
+    listBukuInginDibaca : list[BukuInginDibaca] = []
 
     @staticmethod
     def tambahBuku(bukuDitambah : BukuInginDibaca):
@@ -66,9 +65,20 @@ class DaftarBukuInginDibaca:
             DaftarBukuInginDibaca.listBukuInginDibaca.remove(temp)
         else:
             print(f"tidak ditemukan buku dengan judul {judulBuku}")
+
+    @staticmethod
+    def getIndex(judulBuku : str) -> int:
+        i = 0
+        while (i < len(DaftarBukuInginDibaca.listBukuInginDibaca)):
+            if DaftarBukuInginDibaca.listBukuInginDibaca[i].judul == judulBuku:
+                return i
+            else :
+                i+=1
+        return -1
+
     
 class DaftarBukuSedangDibaca:
-    listBukuSedangDibaca : list[BukuSedangDibaca] =  pickle.load(open("db/BukuSedangDibaca.dat", "rb"))
+    listBukuSedangDibaca : list[BukuSedangDibaca] = []
 
     @staticmethod
     def tambahBuku(bukuDitambah : BukuSedangDibaca):
@@ -88,10 +98,20 @@ class DaftarBukuSedangDibaca:
             DaftarBukuSedangDibaca.listBukuSedangDibaca.remove(temp)
         else:
             print(f"tidak ditemukan buku dengan judul {judulBuku}")
+
+    @staticmethod
+    def getIndex(judulBuku : str) -> int:
+        i = 0
+        while (i < len(DaftarBukuSedangDibaca.listBukuSedangDibaca)):
+            if DaftarBukuSedangDibaca.listBukuSedangDibaca[i].judul == judulBuku:
+                return i
+            else :
+                i+=1
+        return -1
         
 
 class DaftarBukuSudahDibaca:
-    listBukuSudahDibaca : list[BukuSudahDibaca] = pickle.load(open("db/BukuSudahDibaca.dat", "rb"))
+    listBukuSudahDibaca : list[BukuSudahDibaca] = []
 
     @staticmethod
     def tambahBuku(bukuDitambah : BukuSudahDibaca):
@@ -112,6 +132,16 @@ class DaftarBukuSudahDibaca:
         else:
             print(f"tidak ditemukan buku dengan judul {judulBuku}")
 
+    @staticmethod
+    def getIndex(judulBuku : str) -> int:
+        i = 0
+        while (i < len(DaftarBukuSudahDibaca.listBukuSudahDibaca)):
+            if DaftarBukuSudahDibaca.listBukuSudahDibaca[i].judul == judulBuku:
+                return i
+            else :
+                i+=1
+        return -1
+
 class FormIsiDataBuku:
     @staticmethod
     def UploadBuku() -> None:
@@ -120,7 +150,7 @@ class FormIsiDataBuku:
         Penerbit = input("Masukkan penerbit : ")
         totalHalaman = int(input("Masukkan total halaman : "))
         bukuAdd = BukuInginDibaca(judul=Judul, penulis=Penulis, penerbit=Penerbit, totalHalaman=totalHalaman)
-        DaftarBukuInginDibaca.listBukuInginDibaca.append(bukuAdd)
+        DaftarBukuInginDibaca.tambahBuku(bukuAdd)
         print("Buku berhasil ditambah ke Daftar buku yang ingin dibaca")
 
 class FormKemajuanBuku:
@@ -134,7 +164,7 @@ class FormKemajuanBuku:
             else:
                 i+=1
         if found:
-            if (DaftarBukuSedangDibaca.listBukuSedangDibaca[i].halamanTerakhir+tambahHalaman >= DaftarBukuSedangDibaca.listBukuSedangDibaca[i].totalHalaman):
+            if (DaftarBukuSedangDibaca.listBukuSedangDibaca[i].halamanTerakhir+tambahHalaman > DaftarBukuSedangDibaca.listBukuSedangDibaca[i].totalHalaman):
                 DaftarBukuSedangDibaca.listBukuSedangDibaca[i].halamanTerakhir = DaftarBukuSedangDibaca.listBukuSedangDibaca[i].totalHalaman
             else:
                 DaftarBukuSedangDibaca.listBukuSedangDibaca[i].halamanTerakhir += tambahHalaman
@@ -146,7 +176,7 @@ class FormKemajuanBuku:
 
 class PemindahBuku:
     @staticmethod
-    def PindahBuku(judul:str, tanggal:datetime, catatan:str) -> None:
+    def PindahBuku(judul:str, tanggal:str, catatan:str) -> None:
         i = 0
         foundInginDibaca = False
         foundSudahDibaca = False
@@ -166,13 +196,13 @@ class PemindahBuku:
         # jika buku di daftaringindibaca
         if (foundInginDibaca):
             temp = DaftarBukuInginDibaca.listBukuInginDibaca[i]
-            DaftarBukuInginDibaca.listBukuInginDibaca.remove(temp)
-            DaftarBukuSedangDibaca.listBukuSedangDibaca.append(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, 1, catatan))
+            DaftarBukuInginDibaca.hapusBuku(temp.judul)
+            DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, 1, catatan))
             print("Buku berhasil dipindah dari daftar ingin dibaca ke daftar sedang dibaca")
         elif (foundSudahDibaca):
             temp = DaftarBukuSudahDibaca.listBukuSudahDibaca[i]
-            DaftarBukuSudahDibaca.listBukuSudahDibaca.remove(temp)
-            DaftarBukuSedangDibaca.listBukuSedangDibaca.append(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, 1, catatan))
+            DaftarBukuSudahDibaca.hapusBuku(temp.judul)
+            DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, 1, catatan))
             print("Buku berhasil dipindah dari daftar sudah dibaca ke daftar sedang dibaca")
         else:
             print(f"tidak ditemukan buku ingin dibaca atau sudah dibaca dengan judul {judul}")
@@ -191,8 +221,8 @@ class CekSelesai:
             temp = DaftarBukuSedangDibaca.listBukuSedangDibaca[i]
             if temp.halamanTerakhir == temp.totalHalaman:
                 print("Buku sudah selesai dibaca... memindahkan buku ke daftar sudah dibaca")
-                DaftarBukuSedangDibaca.listBukuSedangDibaca.remove(temp)
-                DaftarBukuSudahDibaca.listBukuSudahDibaca.append(BukuSudahDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, temp.hariPembacaan, temp.catatan))
+                DaftarBukuSedangDibaca.hapusBuku(temp.judul)
+                DaftarBukuSudahDibaca.tambahBuku(BukuSudahDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, temp.hariPembacaan, temp.catatan))
             else:
                 print("Buku belum selesai dibaca")
         else:
@@ -223,13 +253,18 @@ class CetakBuku:
                 i+=1
             print()
 
+class LoadState:
+    @staticmethod
+    def loadBuku(databaseFolder : str = "db") -> None:
+        DaftarBukuInginDibaca.listBukuInginDibaca = pickle.load(open(f"{databaseFolder}/BukuInginDibaca.dat", "rb"))
+        DaftarBukuSedangDibaca.listBukuSedangDibaca = pickle.load(open(f"{databaseFolder}/BukuSedangDibaca.dat", "rb"))
+        DaftarBukuSudahDibaca.listBukuSudahDibaca = pickle.load(open(f"{databaseFolder}/BukuSudahDibaca.dat", "rb"))
 
 class SaveState:
+    @staticmethod
     def saveBuku() -> None:
         pickle.dump(DaftarBukuInginDibaca.listBukuInginDibaca, open("db/BukuInginDibaca.dat", "wb"))
         pickle.dump(DaftarBukuSedangDibaca.listBukuSedangDibaca, open("db/BukuSedangDibaca.dat", "wb"))
         pickle.dump(DaftarBukuSudahDibaca.listBukuSudahDibaca, open("db/BukuSudahDibaca.dat", "wb"))
         print("State sekarang berhasil disimpan ke database")
 
-
-CetakBuku.CetakBuku()
