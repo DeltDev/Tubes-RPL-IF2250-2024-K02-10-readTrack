@@ -2,6 +2,7 @@ import SplashScreen as ss
 import MainMenuScreen as mms
 import customtkinter as ctk
 import BukuInginDibacaPage as BID
+import BukuSedangDibacaPage as BSD
 #tombol untuk pindah ke menu utama
 def switchToMenu(root):
   mms.create(root) 
@@ -15,7 +16,7 @@ def inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,cu
    indicate(indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
    lb = ctk.CTkLabel(root, text="Daftar buku yang ingin dibaca", font=("Segoe UI Light",24))
    lb.pack(pady=15)
-   BID.createInginDibacaPage(root,color)
+   BID.createInginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
 #tombol untuk menampilkan semua buku yang sedang dibaca
 def sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton):
    for widget in root.winfo_children():
@@ -23,8 +24,7 @@ def sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,c
    indicate(indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
    lb = ctk.CTkLabel(root, text="Daftar buku yang sedang dibaca", font=("Segoe UI Light",24))
    lb.pack(pady=15)
-   for x in range(20):
-        ctk.CTkButton(root, text="Sedang dibaca dummy button").pack(pady =20)
+   BSD.createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
 #tombol untuk menampilkan semua buku yang sudah dibaca
 def sudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton):
    for widget in root.winfo_children():
