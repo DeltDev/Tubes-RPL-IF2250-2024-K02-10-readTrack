@@ -1,9 +1,11 @@
 from Buku import *
 from tkinter import *
+from tkinter import messagebox  
 import customtkinter as ctk
 from PIL import Image
 import ButtonController as BC
 import LogoLoader as LL
+import CustomWidget as CW
 
 LoadState.loadBuku()
 def createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton):
@@ -180,22 +182,18 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
                                     font=("Segoe UI Light", 16))
     bookTotalPageLabel.place(x=20, y=130)
 
-    bookTotalPageEntry = ctk.CTkEntry(bookFrame,
-                                    width=480,
-                                    font=("Segoe UI Light", 16))
+    bookTotalPageEntry = CW.IntegerSpinbox(bookFrame, width=150, step_size=1)
     bookTotalPageEntry.place(x=300, y=130)
-    bookTotalPageEntry.insert(0, temp.totalHalaman)
+    bookTotalPageEntry.set(temp.totalHalaman)
 
     bookLastPageLabel = ctk.CTkLabel(bookFrame, 
                                     text="Halaman terakhir yang dibaca: ", 
                                     font=("Segoe UI Light", 16))
     bookLastPageLabel.place(x=20, y=170)
 
-    bookLastPageEntry = ctk.CTkEntry(bookFrame,
-                                    width=480,
-                                    font=("Segoe UI Light", 16))
+    bookLastPageEntry = CW.IntegerSpinbox(bookFrame, width=150, step_size=1)
     bookLastPageEntry.place(x=300, y=170)
-    bookLastPageEntry.insert(0, temp.halamanTerakhir)
+    bookLastPageEntry.set(temp.halamanTerakhir)
 
     bookFirstDateLabel = ctk.CTkLabel(bookFrame, 
                                     text="Tanggal mulai membaca: ", 
@@ -214,12 +212,11 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
                                 text="Hari pembacaan: ", 
                                 font=("Segoe UI Light", 16))
     bookDayLabel.place(x=20, y=250)
+    # BookDayEntry as SpinBox
 
-    bookDayEntry = ctk.CTkEntry(bookFrame,
-                                width=480,
-                                font=("Segoe UI Light", 16))
+    bookDayEntry = CW.IntegerSpinbox(bookFrame, width=120, step_size=1)
     bookDayEntry.place(x=300, y=250)
-    bookDayEntry.insert(0, temp.hariPembacaan)
+    bookDayEntry.set(temp.hariPembacaan)
 
     bookNoteLabel = ctk.CTkLabel(bookFrame, 
                                 text="Catatan: ", 
@@ -249,12 +246,43 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
                                 height=40,
                                 text="Simpan",
                                 font=("Segoe UI Light",18),
-                                command= lambda root=root,indicatorArr=indicatorArr,indicator=indicator,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton,bookInstance=temp, judul=bookTitleEntry, penulis=bookWriterEntry, penerbit=bookPublisherEntry, totalHalaman=bookTotalPageEntry, halamanTerakhir=bookLastPageEntry, tanggalMulaiBaca=bookFirstDateEntry, hariPembacaan=bookDayEntry, catatan=bookNoteEntry: saveEditBuku(root,indicatorArr,indicator,color,defaultColor,buttonArr,currentButton,bookInstance, bookTitleEntry.get(), bookWriterEntry.get(), bookPublisherEntry.get(), bookTotalPageEntry.get(), bookLastPageEntry.get(), bookFirstDateEntry.get(), bookDayEntry.get(), bookNoteEntry.get("1.0",END)))
+                                command= lambda root=root,indicatorArr=indicatorArr,indicator=indicator,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: saveEditBuku(root,indicatorArr,indicator,color,defaultColor,buttonArr,currentButton, bookTitleEntry.get(), bookWriterEntry.get(), bookPublisherEntry.get(), bookTotalPageEntry.get(), bookLastPageEntry.get(), bookFirstDateEntry.get(), bookDayEntry.get(), bookNoteEntry.get("1.0",END), temp))
     saveButton.place(x=450, y =350)
 
 
-def saveEditBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookInstance, judul, penulis, penerbit, totalHalaman, halamanTerakhir, tanggalMulaiBaca, hariPembacaan, catatan):
-    bookInstance.editBuku(judul, penulis, penerbit, totalHalaman, halamanTerakhir, tanggalMulaiBaca, hariPembacaan, catatan)
+def saveEditBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, judulBaru, penulisBaru, penerbitBaru, totalHalamanBaru, halamanTerakhirBaru, tanggalMulaiBacaBaru, hariPembacaanBaru, catatanBaru, instansBuku):
+
+    # Input Handling
+    if(judulBaru == "" or penulisBaru == "" or penerbitBaru == "" or totalHalamanBaru is None or halamanTerakhirBaru is None or hariPembacaanBaru is None):
+        messagebox.showerror("Input kosong", "Hanya catatan yang boleh kosong!")
+        return
+
+    # Halaman terakhir yang dibaca tidak boleh lebih besar dari jumlah halaman dan tidak boleh kurang dari 0
+    if(int(halamanTerakhirBaru) <= 0 or int(totalHalamanBaru) <= 0):
+        messagebox.showerror("Input tidak valid", "Nilai halaman harus bilangan bulat positif!")
+        return
+    
+    if(len(judulBaru) > 75):
+        messagebox.showerror("Maksimum input", "Judul tidak boleh lebih dari 75 karakter!")
+        return
+    
+    if(len(penulisBaru) > 75):
+        messagebox.showerror("Maksimum input", "Penulis tidak boleh lebih dari 75 karakter!")
+        return
+    
+    if(len(penerbitBaru) > 75):
+        messagebox.showerror("Maksimum input", "Penerbit tidak boleh lebih dari 75 karakter!")
+        return
+    
+    if(len(catatanBaru) > 250):
+        messagebox.showerror("Maksimum input", "Catatan tidak boleh lebih dari 250 karakter!")
+        return
+    
+    if (halamanTerakhirBaru > totalHalamanBaru):
+        halamanTerakhirBaru = totalHalamanBaru
+        messagebox.showinfo("Maksimum halaman", "Halaman terakhir yang dibaca telah disesuaikan dengan jumlah halaman buku")
+
+    instansBuku.editBuku(judulBaru, penulisBaru, penerbitBaru, totalHalamanBaru, halamanTerakhirBaru, tanggalMulaiBacaBaru, hariPembacaanBaru, catatanBaru)
     SaveState.saveBuku()
     BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
 
