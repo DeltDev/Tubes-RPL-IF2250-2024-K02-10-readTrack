@@ -4,6 +4,7 @@ import customtkinter as ctk
 from PIL import Image
 import ButtonController as BC
 import LogoLoader as LL
+from datetime import datetime
 
 LoadState.loadBuku()
 def createSudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton):
@@ -117,7 +118,7 @@ def bacaLagiPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cur
                               height=40,
                               text="Ya",
                               font=("Segoe UI Light",20),
-                              command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: bacaLagi(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title))
+                              command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: bacaLagi(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title))
     yesButton.place(x=200, y =340)
 
     noButton = ctk.CTkButton(bookFrame,
@@ -134,6 +135,7 @@ def deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,current
     BC.sudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
 
 def bacaLagi(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title):
-    PemindahBuku.PindahBuku(title, "", "")
+    tanggal = datetime.now().strftime("%Y-%m-%d")
+    PemindahBuku.PindahBuku(title, tanggal, "")
     SaveState.saveBuku()
     BC.sudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)

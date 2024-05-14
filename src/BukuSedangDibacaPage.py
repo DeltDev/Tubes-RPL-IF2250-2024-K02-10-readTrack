@@ -319,7 +319,8 @@ def selesaiBacaBukuPrompt(root,indicatorArr,indicator, color,defaultColor,button
                               width = 150,
                               height=40,
                               text="Ya",
-                              font=("Segoe UI Light",20))
+                              font=("Segoe UI Light",20),
+                              command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: selesaiBaca(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title))
     yesButton.place(x=200, y =340)
 
     noButton = ctk.CTkButton(bookFrame,
@@ -329,3 +330,8 @@ def selesaiBacaBukuPrompt(root,indicatorArr,indicator, color,defaultColor,button
                               font=("Segoe UI Light",20),
                               command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
     noButton.place(x=450, y =340)
+
+def selesaiBaca(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title):
+    CekSelesai.CekSelesai(title)
+    SaveState.saveBuku()
+    BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
