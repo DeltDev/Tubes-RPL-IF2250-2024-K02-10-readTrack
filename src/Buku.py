@@ -1,4 +1,5 @@
 import pickle
+from datetime import datetime
 
 class Buku:
     def __init__(self, judul: str, penulis: str, penerbit: str, totalHalaman:int) -> None:
@@ -7,7 +8,6 @@ class Buku:
         self.penerbit = penerbit
         self.totalHalaman = totalHalaman
 
-    
     def editBuku(self, judul: str, penulis: str, penerbit: str, totalHalaman:int) -> None:
         self.judul = judul
         self.penulis = penulis
@@ -19,30 +19,34 @@ class BukuInginDibaca(Buku):
         super().__init__(judul, penulis, penerbit, totalHalaman)
 
 class BukuSedangDibaca(Buku):
-    def __init__(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, halamanTerakhir: int, tanggalMulaiBaca: str, hariPembacaan:int, catatan:str) -> None:
+    def __init__(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, halamanTerakhir: int, tanggalMulaiBaca: str, tanggalTerakhirBaca: str, hariPembacaan:int, catatan:str) -> None:
         super().__init__(judul, penulis, penerbit, totalHalaman)
         self.halamanTerakhir = halamanTerakhir
         self.tanggalMulaiBaca = tanggalMulaiBaca
+        self.tanggalTerakhirBaca = tanggalTerakhirBaca
         self.hariPembacaan = hariPembacaan
         self.catatan = catatan
     
-    def editBuku(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, halamanTerakhir: int, tanggalMulaiBaca: str, hariPembacaan:int, catatan:str) -> None:
+    def editBuku(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, halamanTerakhir: int, tanggalMulaiBaca: str, tanggalTerakhirBaca: str, hariPembacaan:int, catatan:str) -> None:
         super().editBuku(judul, penulis, penerbit, totalHalaman)
         self.halamanTerakhir = halamanTerakhir
         self.tanggalMulaiBaca = tanggalMulaiBaca
+        self.tanggalTerakhirBaca = tanggalTerakhirBaca
         self.hariPembacaan = hariPembacaan
         self.catatan = catatan
     
 class BukuSudahDibaca(Buku):
-    def __init__(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, hariSelesai: int, catatan: str) -> None:
+    def __init__(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, hariSelesai: int, catatan: str, tanggalTerakhirBaca : str) -> None:
         super().__init__(judul, penulis, penerbit, totalHalaman)
         self.hariSelesai = hariSelesai
         self.catatan = catatan
+        self.tanggalTerakhirBaca = tanggalTerakhirBaca
     
-    def editBuku(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, hariSelesai: int, catatan: str) -> None:
+    def editBuku(self, judul: str, penulis: str, penerbit: str, totalHalaman: int, hariSelesai: int, catatan: str, tanggalTerakhirBaca : str) -> None:
         super().editBuku(judul, penulis, penerbit, totalHalaman)
         self.hariSelesai = hariSelesai
         self.catatan = catatan
+        self.tanggalTerakhirBaca = tanggalTerakhirBaca
 
 class DaftarBukuInginDibaca:
     listBukuInginDibaca : list[BukuInginDibaca] = []
@@ -64,7 +68,7 @@ class DaftarBukuInginDibaca:
             temp = DaftarBukuInginDibaca.listBukuInginDibaca[i]
             DaftarBukuInginDibaca.listBukuInginDibaca.remove(temp)
         else:
-            print(f"tidak ditemukan buku dengan judul {judulBuku}")
+            raise Exception(f"Tidak ditemukan buku dengan judul {judulBuku}")
 
     @staticmethod
     def getIndex(judulBuku : str) -> int:
@@ -97,7 +101,7 @@ class DaftarBukuSedangDibaca:
             temp = DaftarBukuSedangDibaca.listBukuSedangDibaca[i]
             DaftarBukuSedangDibaca.listBukuSedangDibaca.remove(temp)
         else:
-            print(f"tidak ditemukan buku dengan judul {judulBuku}")
+            raise Exception(f"tidak ditemukan buku dengan judul {judulBuku}")
 
     @staticmethod
     def getIndex(judulBuku : str) -> int:
@@ -130,7 +134,7 @@ class DaftarBukuSudahDibaca:
             temp = DaftarBukuSudahDibaca.listBukuSudahDibaca[i]
             DaftarBukuSudahDibaca.listBukuSudahDibaca.remove(temp)
         else:
-            print(f"tidak ditemukan buku dengan judul {judulBuku}")
+            raise Exception(f"tidak ditemukan buku dengan judul {judulBuku}")
 
     @staticmethod
     def getIndex(judulBuku : str) -> int:
@@ -153,9 +157,10 @@ class FormIsiDataBuku:
         DaftarBukuInginDibaca.tambahBuku(bukuAdd)
         print("Buku berhasil ditambah ke Daftar buku yang ingin dibaca")
 
+
 class FormKemajuanBuku:
     @staticmethod
-    def UpdateBuku(judul:str, tambahHalaman:int, tambahHari:int) -> None:
+    def UpdateBuku(judul:str, tambahHalaman:int) -> None:
         i = 0
         found = False
         while (i < len(DaftarBukuSedangDibaca.listBukuSedangDibaca) and not found):
@@ -164,15 +169,16 @@ class FormKemajuanBuku:
             else:
                 i+=1
         if found:
+            DaftarBukuSedangDibaca.listBukuSedangDibaca[i].hariPembacaan += 1
+            DaftarBukuSedangDibaca.listBukuSedangDibaca[i].tanggalTerakhirBaca = datetime.now().strftime("%Y-%m-%d")
             if (DaftarBukuSedangDibaca.listBukuSedangDibaca[i].halamanTerakhir+tambahHalaman > DaftarBukuSedangDibaca.listBukuSedangDibaca[i].totalHalaman):
                 DaftarBukuSedangDibaca.listBukuSedangDibaca[i].halamanTerakhir = DaftarBukuSedangDibaca.listBukuSedangDibaca[i].totalHalaman
             else:
                 DaftarBukuSedangDibaca.listBukuSedangDibaca[i].halamanTerakhir += tambahHalaman
-                DaftarBukuSedangDibaca.listBukuSedangDibaca[i].hariPembacaan += tambahHari
                 print(f"Buku sudah ditambah halaman terakhirnya sebanyak {tambahHalaman}")
             CekSelesai.CekSelesai(judul)
         else:
-            print(f"tidak ditemukan buku yang sedang dibaca dengan judul {judul}")
+            raise Exception(f"tidak ditemukan buku yang sedang dibaca dengan judul {judul}")
 
 class PemindahBuku:
     @staticmethod
@@ -187,25 +193,26 @@ class PemindahBuku:
             else:
                 i+=1
         # mencari buku di daftarsudahdibaca
-        i = 0
-        while(not foundInginDibaca and not foundSudahDibaca and i < len(DaftarBukuSudahDibaca.listBukuSudahDibaca)):
-            if (DaftarBukuSudahDibaca.listBukuSudahDibaca[i].judul == judul):
-                foundSudahDibaca = True
-            else:
-                i+=1
+        if (not foundInginDibaca):
+            i = 0
+            while(not foundInginDibaca and not foundSudahDibaca and i < len(DaftarBukuSudahDibaca.listBukuSudahDibaca)):
+                if (DaftarBukuSudahDibaca.listBukuSudahDibaca[i].judul == judul):
+                    foundSudahDibaca = True
+                else:
+                    i+=1
         # jika buku di daftaringindibaca
         if (foundInginDibaca):
             temp = DaftarBukuInginDibaca.listBukuInginDibaca[i]
             DaftarBukuInginDibaca.hapusBuku(temp.judul)
-            DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, 1, catatan))
+            DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, tanggal, 1, catatan))
             print("Buku berhasil dipindah dari daftar ingin dibaca ke daftar sedang dibaca")
         elif (foundSudahDibaca):
             temp = DaftarBukuSudahDibaca.listBukuSudahDibaca[i]
             DaftarBukuSudahDibaca.hapusBuku(temp.judul)
-            DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, 1, catatan))
+            DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, tanggal, 1, catatan))
             print("Buku berhasil dipindah dari daftar sudah dibaca ke daftar sedang dibaca")
         else:
-            print(f"tidak ditemukan buku ingin dibaca atau sudah dibaca dengan judul {judul}")
+            raise Exception(f"tidak ditemukan buku ingin dibaca atau sudah dibaca dengan judul {judul}")
 
 class CekSelesai:
     @staticmethod
@@ -222,11 +229,11 @@ class CekSelesai:
             if temp.halamanTerakhir == temp.totalHalaman:
                 print("Buku sudah selesai dibaca... memindahkan buku ke daftar sudah dibaca")
                 DaftarBukuSedangDibaca.hapusBuku(temp.judul)
-                DaftarBukuSudahDibaca.tambahBuku(BukuSudahDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, temp.hariPembacaan, temp.catatan))
+                DaftarBukuSudahDibaca.tambahBuku(BukuSudahDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, temp.hariPembacaan, temp.catatan, temp.tanggalTerakhirBaca))
             else:
                 print("Buku belum selesai dibaca")
         else:
-            print(f"tidak ditemukan buku yang sedang dibaca dengan judul {judul}")
+            raise Exception(f"tidak ditemukan buku yang sedang dibaca dengan judul {judul}")
 
 class CetakBuku:
     @staticmethod
@@ -242,14 +249,14 @@ class CetakBuku:
             i = 1
             print("===Buku Sedang Dibaca===")
             for temp in DaftarBukuSedangDibaca.listBukuSedangDibaca:
-                print(f"{i}. judul = {temp.judul}, penulis = {temp.penulis}, penerbit = {temp.penerbit}, totalHalaman = {temp.totalHalaman}, halaman terakhir = {temp.halamanTerakhir}, tanggal mulai baca = {temp.tanggalMulaiBaca}, hari baca ke-{temp.hariPembacaan}, catatan = {temp.catatan}")
+                print(f"{i}. judul = {temp.judul}, penulis = {temp.penulis}, penerbit = {temp.penerbit}, totalHalaman = {temp.totalHalaman}, halaman terakhir = {temp.halamanTerakhir}, tanggal mulai baca = {temp.tanggalMulaiBaca}, tanggal terakhir baca = {temp.tanggalTerakhirBaca}, hari baca ke-{temp.hariPembacaan}, catatan = {temp.catatan}")
                 i+=1
             print()
         if (len(DaftarBukuSudahDibaca.listBukuSudahDibaca) != 0):
             i = 1
             print("===Buku Sudah Dibaca===")
             for temp in DaftarBukuSudahDibaca.listBukuSudahDibaca:
-                print(f"{i}. judul = {temp.judul}, penulis = {temp.penulis}, penerbit = {temp.penerbit}, totalHalaman = {temp.totalHalaman}, hari selesai = {temp.hariSelesai}, catatan = {temp.catatan}")
+                print(f"{i}. judul = {temp.judul}, penulis = {temp.penulis}, penerbit = {temp.penerbit}, totalHalaman = {temp.totalHalaman}, hari selesai = {temp.hariSelesai}, catatan = {temp.catatan}, tanggal terakhir baca = {temp.tanggalTerakhirBaca}")
                 i+=1
             print()
 

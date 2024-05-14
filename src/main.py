@@ -112,8 +112,7 @@ while (True):
                 print(f"tidak ditemukan buku dengan judul {judul} di daftar buku sedang dibaca")
             else:
                 tambahHalaman = int(input("Masukkan berapa halaman kemajuan : "))
-                tambahHari = int(input("Masukkan jumlah hari yang diperlukan : "))
-                FormKemajuanBuku.UpdateBuku(judul, tambahHalaman, tambahHari)
+                FormKemajuanBuku.UpdateBuku(judul, tambahHalaman)
 
         elif command == "pindahBuku":
             judul = input("Masukkan judul buku yang ingin dipindah dari daftar buku yang ingin/sudah dibaca ke daftar sedang dibaca : ")
