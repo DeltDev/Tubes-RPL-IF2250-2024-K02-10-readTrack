@@ -5,6 +5,7 @@ import customtkinter as ctk
 from PIL import Image
 import ButtonController as BC
 import LogoLoader as LL
+from datetime import datetime
 
 LoadState.loadBuku()
 def createInginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton):
@@ -102,12 +103,13 @@ def mulaiBacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cu
                                 font=("Segoe UI Light", 20))
     promptLabel1.place(x=200,y=10)
 
-    #command untuk memindahkan buku yang ingin dibaca ke buku yang sedang dibaca belum dipasang
+    #command untuk memindahkan buku yang ingin dibaca ke buku yang sedang dibaca
     yesButton = ctk.CTkButton(bookFrame,
                               width = 150,
                               height=40,
                               text="Ya",
-                              font=("Segoe UI Light",20))
+                              font=("Segoe UI Light",20),
+                              command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton,title=title:deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title))
     yesButton.place(x=200, y =140)
 
     noButton = ctk.CTkButton(bookFrame,
@@ -120,6 +122,12 @@ def mulaiBacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cu
 def deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title):
     # print(title, " dihapus")
     DaftarBukuInginDibaca.hapusBuku(title)
+    SaveState.saveBuku()
+    BC.inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
+
+def mulaiBaca(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title):
+    tanggal = datetime.now().strftime("%Y-%m-%d")
+    PemindahBuku.PindahBuku(title, tanggal, "")
     SaveState.saveBuku()
     BC.inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
 
