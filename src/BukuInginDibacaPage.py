@@ -206,16 +206,20 @@ def tambahBuku(root, indicatorArr, indicator, color, defaultColor, buttonArr, cu
       title=titleInput.get()
       penulis=penulisInput.get()
       penerbit=penerbitInput.get()
-      halaman=int(halamanInput.get())
+      try:
+        halaman=int(halamanInput.get())
+      except:
+        messagebox.showerror("Kesalahan input", "Jumlah halaman hanya boleh diisi oleh bilangan bulat positif!")
+        return
 
       if (len(title)>75):
-        messagebox.showerror("Maksimum input", "Penerbit tidak boleh lebih dari 75 karakter!")
+        messagebox.showerror("Batas input maksimum", "Judul buku tidak boleh lebih dari 75 karakter!")
         return
       if (len(penulis)>75):
-        messagebox.showerror("Maksimum input", "Penerbit tidak boleh lebih dari 75 karakter!")
+        messagebox.showerror("Batas input maksimum", "Nama penulis tidak boleh lebih dari 75 karakter!")
         return
       if (len(penerbit)>75):
-        messagebox.showerror("Maksimum input", "Penerbit tidak boleh lebih dari 75 karakter!")
+        messagebox.showerror("Batas input maksimum", "Nama penerbit tidak boleh lebih dari 75 karakter!")
         return
       if (halaman <= 0):
         messagebox.showerror("Input tidak valid", "Nilai halaman harus bilangan bulat positif!")

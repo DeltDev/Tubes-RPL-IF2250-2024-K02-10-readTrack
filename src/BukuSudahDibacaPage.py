@@ -41,10 +41,16 @@ def createSudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
                                       font=("Segoe UI Light", 20))
         bookFinishDateLabel.place(x=20,y=150)
         bookNoteLabel = ctk.CTkLabel(bookFrame, 
-                                      text="Catatan: "+str(temp.catatan), 
+                                      text="Catatan: ", 
                                       font=("Segoe UI Light", 20))
         bookNoteLabel.place(x=20,y=180)
-
+        bookNoteTextBox = ctk.CTkTextbox(bookFrame,
+                                         width=670,
+                                         height=130,
+                                         font=("Segoe UI Light", 20))
+        bookNoteTextBox.place(x=100,y=180)
+        bookNoteTextBox.insert(1.0,temp.catatan)
+        bookNoteTextBox.configure(state="disabled")
         #tombol untuk memindahkan buku yang sudah dibaca ke list buku yang sedang dibaca
         readAgainButton = ctk.CTkButton(bookFrame,
                                         width = 150,
@@ -102,7 +108,7 @@ def bacaLagiPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cur
     for widget in bookFrame.winfo_children():
       widget.destroy()
     promptLabel1 = ctk.CTkLabel(bookFrame,
-                                text="Apakah Anda ingin mengedit buku ini?",
+                                text="Apakah Anda ingin membaca buku ini lagi?",
                                 font=("Segoe UI Light", 20))
     promptLabel1.place(x=230,y=10)
 

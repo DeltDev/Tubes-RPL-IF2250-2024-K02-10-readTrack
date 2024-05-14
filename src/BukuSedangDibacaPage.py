@@ -51,10 +51,16 @@ def createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,butto
                                       font=("Segoe UI Light", 20))
         bookDayLabel.place(x=20,y=210)
         bookNoteLabel = ctk.CTkLabel(bookFrame, 
-                                      text="Catatan: "+str(temp.catatan), 
+                                      text="Catatan: ", 
                                       font=("Segoe UI Light", 20))
         bookNoteLabel.place(x=20,y=240)
-
+        bookNoteTextBox = ctk.CTkTextbox(bookFrame,
+                                         width=670,
+                                         height=80,
+                                         font=("Segoe UI Light", 20))
+        bookNoteTextBox.place(x=100,y=240)
+        bookNoteTextBox.insert(1.0,temp.catatan)
+        bookNoteTextBox.configure(state="disabled")
         #tombol untuk mengedit data buku
         editBukuButton = ctk.CTkButton(bookFrame,
                                         width = 150,
@@ -62,7 +68,7 @@ def createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,butto
                                         text="Edit Buku",
                                         font=("Segoe UI Light",20),
                                         command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: editBukuPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
-        editBukuButton.place(x=620,y=340)
+        
 
         #tombol untuk menghapus buku yang sedang dibaca
         hapusBukuButton = ctk.CTkButton(bookFrame,
@@ -73,7 +79,19 @@ def createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,butto
                                         fg_color="#B32B3D",
                                         hover_color="#821F2C",
                                         command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: hapusBukuSedangDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
-        hapusBukuButton.place(x= 450, y =340)
+        if(temp.halamanTerakhir == temp.totalHalaman): #jika sudah di halaman terakhir, tampilkan tombol selesai baca
+            selesaibacaBukuButton = ctk.CTkButton(bookFrame,
+                                        width = 150,
+                                        height=40,
+                                        text="Selesai Baca",
+                                        font=("Segoe UI Light",20),
+                                        command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: selesaiBacaBukuPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
+            selesaibacaBukuButton.place(x=620,y=340)
+            editBukuButton.place(x=450,y=340)
+            hapusBukuButton.place(x=280, y =340)
+        else:
+            editBukuButton.place(x=620,y=340)
+            hapusBukuButton.place(x=450, y =340)
 
 
 def hapusBukuSedangDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
@@ -263,24 +281,20 @@ def saveEditBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
         return
     
     if(len(judulBaru) > 75):
-        messagebox.showerror("Maksimum input", "Judul tidak boleh lebih dari 75 karakter!")
+        messagebox.showerror("Batas input maksimum", "Judul buku tidak boleh lebih dari 75 karakter!")
         return
     
     if(len(penulisBaru) > 75):
-        messagebox.showerror("Maksimum input", "Penulis tidak boleh lebih dari 75 karakter!")
+        messagebox.showerror("Batas input maksimum", "Nama penulis tidak boleh lebih dari 75 karakter!")
         return
     
     if(len(penerbitBaru) > 75):
-        messagebox.showerror("Maksimum input", "Penerbit tidak boleh lebih dari 75 karakter!")
-        return
-    
-    if(len(catatanBaru) > 250):
-        messagebox.showerror("Maksimum input", "Catatan tidak boleh lebih dari 250 karakter!")
+        messagebox.showerror("Batas input maksimum", "Nama penerbit tidak boleh lebih dari 75 karakter!")
         return
     
     if (halamanTerakhirBaru > totalHalamanBaru):
         halamanTerakhirBaru = totalHalamanBaru
-        messagebox.showinfo("Maksimum halaman", "Halaman terakhir yang dibaca telah disesuaikan dengan jumlah halaman buku")
+        messagebox.showinfo("Halaman maksimum", "Input halaman terakhir yang dibaca melebihi total halaman buku.\nHalaman terakhir yang dibaca telah disesuaikan dengan total halaman buku")
 
     instansBuku.editBuku(judulBaru, penulisBaru, penerbitBaru, totalHalamanBaru, halamanTerakhirBaru, tanggalMulaiBacaBaru, hariPembacaanBaru, catatanBaru)
     SaveState.saveBuku()
@@ -291,3 +305,27 @@ def deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,current
     DaftarBukuSedangDibaca.hapusBuku(title)
     SaveState.saveBuku()
     BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
+
+def selesaiBacaBukuPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
+    print(title)
+    for widget in bookFrame.winfo_children():
+      widget.destroy()
+    promptLabel1 = ctk.CTkLabel(bookFrame,
+                                text="Apakah Anda ingin menandai buku ini sudah selesai dibaca?",
+                                font=("Segoe UI Light", 20))
+    promptLabel1.place(x=150,y=10)
+
+    yesButton = ctk.CTkButton(bookFrame,
+                              width = 150,
+                              height=40,
+                              text="Ya",
+                              font=("Segoe UI Light",20))
+    yesButton.place(x=200, y =340)
+
+    noButton = ctk.CTkButton(bookFrame,
+                              width = 150,
+                              height=40,
+                              text="Tidak",
+                              font=("Segoe UI Light",20),
+                              command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
+    noButton.place(x=450, y =340)
