@@ -1,5 +1,6 @@
 from Buku import *
 from tkinter import *
+from tkinter import messagebox
 import customtkinter as ctk
 from PIL import Image
 import ButtonController as BC
@@ -7,12 +8,13 @@ import LogoLoader as LL
 
 LoadState.loadBuku()
 def createInginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton):
-    #tombol untuk menambah buku baru (belum dipasang ke tombol)
+    #tombol untuk menambah buku baru
     buttonAddBuku = ctk.CTkButton(root,
                                   width = 200,
                                   height=40,
                                   text="Tambah Buku Baru",
-                                  font=("Segoe UI Light",20))
+                                  font=("Segoe UI Light",20),
+                                  command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: tambahBukuPrompt(root,indicatorArr,indicator, color, defaultColor, buttonArr, currentButton))
     buttonAddBuku.pack()
     for temp in DaftarBukuInginDibaca.listBukuInginDibaca:
         bookFrame = ctk.CTkFrame(root,
@@ -120,3 +122,109 @@ def deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,current
     DaftarBukuInginDibaca.hapusBuku(title)
     SaveState.saveBuku()
     BC.inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
+
+def tambahBukuPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton):
+    for widget in root.winfo_children():
+      widget.destroy()
+    tambahFrame = ctk.CTkFrame(root,
+                              width=800,
+                              height=475,
+                              border_color=color,
+                              border_width=3)
+    tambahFrame.pack(pady = 20)
+    promptLabel1 = ctk.CTkLabel(tambahFrame,
+                                text="Masukkan buku!",
+                                font=("Segoe UI Light", 24))
+    promptLabel1.place(x=350, y=10)
+
+    # textinput box
+    titleInput = ctk.CTkEntry(tambahFrame,
+                                width=550,
+                                height=40,
+                                font=("Segoe UI Light",20)
+                                )
+    penulisInput = ctk.CTkEntry(tambahFrame,
+                                width=550,
+                                height=40,
+                                font=("Segoe UI Light",20)
+                                )
+    penerbitInput = ctk.CTkEntry(tambahFrame,
+                                width=550,
+                                height=40,
+                                font=("Segoe UI Light",20)
+                                )
+    halamanInput = ctk.CTkEntry(tambahFrame,
+                                width=550,
+                                height=40,
+                                font=("Segoe UI Light",20)
+                                )            
+    titleInput.place(x=200, y=75)
+    penulisInput.place(x=200, y=150)
+    penerbitInput.place(x=200, y=225)
+    halamanInput.place(x=200, y=300)
+
+    #textInput labels
+    titleLabel = ctk.CTkLabel(tambahFrame, 
+                                  text="Judul", 
+                                  font=("Segoe UI Light", 20))
+    titleLabel.place(x=30,y=80)    
+
+    penulisLabel = ctk.CTkLabel(tambahFrame, 
+                                  text="Penulis", 
+                                  font=("Segoe UI Light", 20))
+    penulisLabel.place(x=30,y=155)
+
+    penerbitLabel = ctk.CTkLabel(tambahFrame, 
+                                  text="Penerbit", 
+                                  font=("Segoe UI Light", 20))
+    penerbitLabel.place(x=30,y=230)
+
+    halamanLabel = ctk.CTkLabel(tambahFrame, 
+                                  text="Jumlah halaman", 
+                                  font=("Segoe UI Light", 20))
+    halamanLabel.place(x=30,y=305)
+
+
+    #command untuk membuat buku
+    yesButton = ctk.CTkButton(tambahFrame,
+                              width = 150,
+                              height=40,
+                              text="Buat buku",
+                              font=("Segoe UI Light",20),
+                              command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton, titleInput=titleInput, penulisInput=penulisInput, penerbitInput=penerbitInput, halamanInput=halamanInput: tambahBuku(root, indicatorArr, indicator, color, defaultColor, buttonArr, currentButton, titleInput, penulisInput, penerbitInput, halamanInput))
+    yesButton.place(x=600, y=400)
+
+    noButton = ctk.CTkButton(tambahFrame,
+                              width = 150,
+                              height=40,
+                              text="Kembali",
+                              font=("Segoe UI Light",20),
+                              command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
+    noButton.place(x=50, y=400)  
+
+def tambahBuku(root, indicatorArr, indicator, color, defaultColor, buttonArr, currentButton, titleInput, penulisInput, penerbitInput, halamanInput):
+      title=titleInput.get()
+      penulis=penulisInput.get()
+      penerbit=penerbitInput.get()
+      halaman=int(halamanInput.get())
+
+      if (len(title)>75):
+        messagebox.showerror("Maksimum input", "Penerbit tidak boleh lebih dari 75 karakter!")
+        return
+      if (len(penulis)>75):
+        messagebox.showerror("Maksimum input", "Penerbit tidak boleh lebih dari 75 karakter!")
+        return
+      if (len(penerbit)>75):
+        messagebox.showerror("Maksimum input", "Penerbit tidak boleh lebih dari 75 karakter!")
+        return
+      if (halaman <= 0):
+        messagebox.showerror("Input tidak valid", "Nilai halaman harus bilangan bulat positif!")
+        return
+      if(title == "" or penulis == "" or penerbit == "" or halaman is None):
+        messagebox.showerror("Input kosong", "Semua bagian harus terisi!")
+        return
+      
+      DaftarBukuInginDibaca.tambahBuku(BukuInginDibaca(title, penulis, penerbit, halaman))
+      SaveState.saveBuku()
+      BC.inginDibacaPage(root, indicatorArr, indicator, color, defaultColor, buttonArr, currentButton)
+
