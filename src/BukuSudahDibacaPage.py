@@ -116,7 +116,8 @@ def bacaLagiPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cur
                               width = 150,
                               height=40,
                               text="Ya",
-                              font=("Segoe UI Light",20))
+                              font=("Segoe UI Light",20),
+                              command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: bacaLagi(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title))
     yesButton.place(x=200, y =340)
 
     noButton = ctk.CTkButton(bookFrame,
@@ -129,5 +130,10 @@ def bacaLagiPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cur
 def deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title):
     # print(title, " dihapus")
     DaftarBukuSudahDibaca.hapusBuku(title)
+    SaveState.saveBuku()
+    BC.sudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
+
+def bacaLagi(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title):
+    PemindahBuku.PindahBuku(title, "", "")
     SaveState.saveBuku()
     BC.sudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
