@@ -109,7 +109,7 @@ def mulaiBacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cu
                               height=40,
                               text="Ya",
                               font=("Segoe UI Light",20),
-                              command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton,title=title:deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title))
+                              command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton,title=title:mulaiBaca(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title))
     yesButton.place(x=200, y =140)
 
     noButton = ctk.CTkButton(bookFrame,
