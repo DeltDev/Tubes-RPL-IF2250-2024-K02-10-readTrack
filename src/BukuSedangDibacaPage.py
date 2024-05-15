@@ -240,7 +240,7 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
                                     width=480,
                                     font=("Segoe UI Light", 16))
     bookLastDateEntry.place(x=300, y=250)
-    bookLastDateEntry.insert(0, temp.tanggalTerakhirBaca)
+    bookLastDateEntry.insert(0, datetime.now().strftime("%Y-%m-%d"))
     bookLastDateEntry.configure(state='disabled')
 
     bookNoteLabel = ctk.CTkLabel(bookFrame, 
