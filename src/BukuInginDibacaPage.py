@@ -62,7 +62,6 @@ def createInginDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
         hapusBukuButton.place(x= 450, y =140)
         
 def hapusBukuInginDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
-    # print(title)
     for widget in bookFrame.winfo_children():
       widget.destroy()
     promptLabel1 = ctk.CTkLabel(bookFrame,
@@ -95,7 +94,6 @@ def hapusBukuInginDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,b
     noButton.place(x=450, y =140)
 
 def mulaiBacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
-    print(title)
     for widget in bookFrame.winfo_children():
       widget.destroy()
     promptLabel1 = ctk.CTkLabel(bookFrame,
@@ -120,7 +118,6 @@ def mulaiBacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cu
                               command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
     noButton.place(x=450, y =140)
 def deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title):
-    # print(title, " dihapus")
     DaftarBukuInginDibaca.hapusBuku(title)
     SaveState.saveBuku()
     BC.inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)

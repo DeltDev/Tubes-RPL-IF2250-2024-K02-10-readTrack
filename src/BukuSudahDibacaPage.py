@@ -77,7 +77,6 @@ def createSudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
         hapusBukuButton.place(x= 450, y =370)
 
 def hapusBukuSudahDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
-    # print(title)
     for widget in bookFrame.winfo_children():
       widget.destroy()
     promptLabel1 = ctk.CTkLabel(bookFrame,
@@ -109,7 +108,6 @@ def hapusBukuSudahDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,b
                               command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.sudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
     noButton.place(x=450, y =340)
 def bacaLagiPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
-    print(title)
     for widget in bookFrame.winfo_children():
       widget.destroy()
     promptLabel1 = ctk.CTkLabel(bookFrame,
@@ -133,7 +131,6 @@ def bacaLagiPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cur
                               command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.sudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
     noButton.place(x=450, y =340)
 def deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title):
-    # print(title, " dihapus")
     DaftarBukuSudahDibaca.hapusBuku(title)
     SaveState.saveBuku()
     BC.sudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)

@@ -18,7 +18,7 @@ def createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,butto
     for temp in DaftarBukuSedangDibaca.listBukuSedangDibaca:
         bookFrame = ctk.CTkFrame(root,
                                  width=800,
-                                 height=450,
+                                 height=430,
                                  border_color=color,
                                  border_width=3)
         bookFrame.pack(pady = 20)
@@ -71,7 +71,7 @@ def createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,butto
                                         height=40,
                                         text="Edit Buku",
                                         font=("Segoe UI Light",20),
-                                        command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: editBukuPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
+                                        command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: editBukuPrompt(False,root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
         
 
         #tombol untuk menghapus buku yang sedang dibaca
@@ -94,12 +94,18 @@ def createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,butto
             editBukuButton.place(x=450,y=370)
             hapusBukuButton.place(x=280, y =370)
         else:
-            editBukuButton.place(x=620,y=370)
-            hapusBukuButton.place(x=450, y = 370)
+            updateKemajuanBukuButton = ctk.CTkButton(bookFrame,
+                                        width = 150,
+                                        height=40,
+                                        text="Ubah Kemajuan",
+                                        font=("Segoe UI Light",20),
+                                        command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: editBukuPrompt(True,root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
+            updateKemajuanBukuButton.place(x=620,y=370)
+            editBukuButton.place(x=450,y=370)
+            hapusBukuButton.place(x=280,y=370)
 
 
 def hapusBukuSedangDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
-    # print(title)
     for widget in bookFrame.winfo_children():
       widget.destroy()
     promptLabel1 = ctk.CTkLabel(bookFrame,
@@ -132,22 +138,38 @@ def hapusBukuSedangDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,
     noButton.place(x=450, y =340)
 
 
-def editBukuPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
-    print(title)
+def editBukuPrompt(isEditingProgress,root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
+    teks = ""
+    xPos = 0
+    yPos = 10
     for widget in bookFrame.winfo_children():
       widget.destroy()
+    if(isEditingProgress):
+        teks = "Apakah Anda ingin memperbarui kemajuan membaca buku ini?"
+        xPos = 130
+    else:
+        teks = "Apakah Anda ingin mengedit buku ini?"
+        xPos = 230
     promptLabel1 = ctk.CTkLabel(bookFrame,
-                                text="Apakah Anda ingin mengedit buku ini?",
+                                text=teks,
                                 font=("Segoe UI Light", 20))
-    promptLabel1.place(x=230,y=10)
-
-    yesButton = ctk.CTkButton(bookFrame,
-                              width = 150,
-                              height=40,
-                              text="Ya",
-                              font=("Segoe UI Light",20),
-                              command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton,title=title:editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, bookFrame, title))
-    yesButton.place(x=200, y =340)
+    promptLabel1.place(x=xPos,y=yPos)
+    if(isEditingProgress):
+        yesButton = ctk.CTkButton(bookFrame,
+                                  width = 150,
+                                  height=40,
+                                  text="Ya",
+                                  font=("Segoe UI Light",20),
+                                  command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton,title=title:updateKemajuanForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, bookFrame, title))
+        yesButton.place(x=200, y =340)
+    else:
+        yesButton = ctk.CTkButton(bookFrame,
+                                  width = 150,
+                                  height=40,
+                                  text="Ya",
+                                  font=("Segoe UI Light",20),
+                                  command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton,title=title:editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, bookFrame, title))
+        yesButton.place(x=200, y =340)
 
     noButton = ctk.CTkButton(bookFrame,
                               width = 150,
@@ -157,7 +179,43 @@ def editBukuPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cur
                               command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
     noButton.place(x=450, y =340)
 
+def updateKemajuanForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, bookFrame, title):
+    for widget in bookFrame.winfo_children():
+      widget.destroy()
+    
+    bookIndex = DaftarBukuSedangDibaca.getIndex(title)
+    temp = DaftarBukuSedangDibaca.listBukuSedangDibaca[bookIndex]
+    bookLastPageLabel = ctk.CTkLabel(bookFrame, 
+                                    text="Halaman terakhir yang dibaca: ", 
+                                    font=("Segoe UI Light", 20))
+    bookLastPageLabel.place(x=100, y=170)
 
+    bookLastPageEntry = CW.IntegerSpinbox(bookFrame, width=300, step_size=1)
+    bookLastPageEntry.place(x=380, y=170)
+    bookLastPageEntry.set(temp.halamanTerakhir)
+
+    cancelButton = ctk.CTkButton(bookFrame,
+                                width = 150,
+                                height=40,
+                                text="Batal",
+                                fg_color="#B32B3D",
+                                hover_color="#821F2C",
+                                font=("Segoe UI Light",18),
+                                command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
+    cancelButton.place(x=200, y =340)
+
+    #hitung selisih hari
+    dayStart =datetime.strptime(temp.tanggalMulaiBaca, "%Y-%m-%d")
+    dayNow = datetime.strptime(datetime.now().strftime("%Y-%m-%d"), "%Y-%m-%d")
+    dayDifference = int((dayNow-dayStart).days)
+    # Create button to save edited book
+    saveButton = ctk.CTkButton(bookFrame,
+                                width = 150,
+                                height=40,
+                                text="Simpan",
+                                font=("Segoe UI Light",18),
+                                command= lambda root=root,indicatorArr=indicatorArr,indicator=indicator,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: saveEditBuku(root,indicatorArr,indicator,color,defaultColor,buttonArr,currentButton, temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, bookLastPageEntry.get(), temp.tanggalMulaiBaca, datetime.now().strftime("%Y-%m-%d"), dayDifference, temp.catatan, temp))
+    saveButton.place(x=450, y =340)
 def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, bookFrame, title):
     for widget in bookFrame.winfo_children():
       widget.destroy()
@@ -208,50 +266,41 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
     bookTotalPageEntry.place(x=300, y=130)
     bookTotalPageEntry.set(temp.totalHalaman)
 
-    bookLastPageLabel = ctk.CTkLabel(bookFrame, 
-                                    text="Halaman terakhir yang dibaca: ", 
-                                    font=("Segoe UI Light", 16))
-    bookLastPageLabel.place(x=20, y=170)
-
-    bookLastPageEntry = CW.IntegerSpinbox(bookFrame, width=150, step_size=1)
-    bookLastPageEntry.place(x=300, y=170)
-    bookLastPageEntry.set(temp.halamanTerakhir)
-
     bookFirstDateLabel = ctk.CTkLabel(bookFrame, 
                                     text="Tanggal mulai membaca: ", 
                                     font=("Segoe UI Light", 16))
-    bookFirstDateLabel.place(x=20, y=210)
+    bookFirstDateLabel.place(x=20, y=170)
 
     # Disable entry for bookFirstDateEntry
     bookFirstDateEntry = ctk.CTkEntry(bookFrame,
                                     width=480,
                                     font=("Segoe UI Light", 16))
-    bookFirstDateEntry.place(x=300, y=210)
+    bookFirstDateEntry.place(x=300, y=170)
     bookFirstDateEntry.insert(0, temp.tanggalMulaiBaca)
     bookFirstDateEntry.configure(state='disabled')
 
     bookLastDateLabel = ctk.CTkLabel(bookFrame, 
                                     text="Tanggal terakhir membaca: ", 
                                     font=("Segoe UI Light", 16))
-    bookLastDateLabel.place(x=20, y=250)
+    bookLastDateLabel.place(x=20, y=210)
 
     # Disable entry for bookFirstDateEntry
     bookLastDateEntry = ctk.CTkEntry(bookFrame,
                                     width=480,
                                     font=("Segoe UI Light", 16))
-    bookLastDateEntry.place(x=300, y=250)
+    bookLastDateEntry.place(x=300, y=210)
     bookLastDateEntry.insert(0, datetime.now().strftime("%Y-%m-%d"))
     bookLastDateEntry.configure(state='disabled')
 
     bookNoteLabel = ctk.CTkLabel(bookFrame, 
                                 text="Catatan: ", 
                                 font=("Segoe UI Light", 16))
-    bookNoteLabel.place(x=20, y=290)
+    bookNoteLabel.place(x=20, y=250)
     bookNoteEntry = ctk.CTkTextbox(bookFrame,
                                 width=480,
                                 height=60,
                                 font=("Segoe UI Light", 16))
-    bookNoteEntry.place(x=300, y=290)
+    bookNoteEntry.place(x=300, y=250)
     bookNoteEntry.insert(1.0, temp.catatan)
 
 
@@ -264,7 +313,7 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
                                 hover_color="#821F2C",
                                 font=("Segoe UI Light",18),
                                 command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
-    cancelButton.place(x=200, y =400)
+    cancelButton.place(x=200, y =340)
 
     #hitung selisih hari
     dayStart =datetime.strptime(bookFirstDateEntry.get(), "%Y-%m-%d")
@@ -276,8 +325,8 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
                                 height=40,
                                 text="Simpan",
                                 font=("Segoe UI Light",18),
-                                command= lambda root=root,indicatorArr=indicatorArr,indicator=indicator,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: saveEditBuku(root,indicatorArr,indicator,color,defaultColor,buttonArr,currentButton, bookTitleEntry.get(), bookWriterEntry.get(), bookPublisherEntry.get(), bookTotalPageEntry.get(), bookLastPageEntry.get(), bookFirstDateEntry.get(), datetime.now().strftime("%Y-%m-%d"), dayDifference, bookNoteEntry.get("1.0",END), temp))
-    saveButton.place(x=450, y =400)
+                                command= lambda root=root,indicatorArr=indicatorArr,indicator=indicator,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: saveEditBuku(root,indicatorArr,indicator,color,defaultColor,buttonArr,currentButton, bookTitleEntry.get(), bookWriterEntry.get(), bookPublisherEntry.get(), bookTotalPageEntry.get(), temp.halamanTerakhir, bookFirstDateEntry.get(), datetime.now().strftime("%Y-%m-%d"), dayDifference, bookNoteEntry.get("1.0",END), temp))
+    saveButton.place(x=450, y =340)
 
 
 def saveEditBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, judulBaru, penulisBaru, penerbitBaru, totalHalamanBaru, halamanTerakhirBaru, tanggalMulaiBacaBaru, tanggalTerakhirBacaBaru, hariPembacaanBaru, catatanBaru, instansBuku):
@@ -313,13 +362,11 @@ def saveEditBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
     BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
 
 def deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title):
-    # print(title, " dihapus")
     DaftarBukuSedangDibaca.hapusBuku(title)
     SaveState.saveBuku()
     BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
 
 def selesaiBacaBukuPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
-    print(title)
     for widget in bookFrame.winfo_children():
       widget.destroy()
     promptLabel1 = ctk.CTkLabel(bookFrame,
