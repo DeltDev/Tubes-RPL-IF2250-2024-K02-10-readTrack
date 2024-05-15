@@ -18,7 +18,7 @@ def createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,butto
     for temp in DaftarBukuSedangDibaca.listBukuSedangDibaca:
         bookFrame = ctk.CTkFrame(root,
                                  width=800,
-                                 height=440,
+                                 height=450,
                                  border_color=color,
                                  border_width=3)
         bookFrame.pack(pady = 20)
@@ -274,7 +274,7 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
                                 hover_color="#821F2C",
                                 font=("Segoe UI Light",18),
                                 command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
-    cancelButton.place(x=200, y =350)
+    cancelButton.place(x=200, y =400)
     # Create button to save edited book
     saveButton = ctk.CTkButton(bookFrame,
                                 width = 150,
@@ -282,7 +282,7 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
                                 text="Simpan",
                                 font=("Segoe UI Light",18),
                                 command= lambda root=root,indicatorArr=indicatorArr,indicator=indicator,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: saveEditBuku(root,indicatorArr,indicator,color,defaultColor,buttonArr,currentButton, bookTitleEntry.get(), bookWriterEntry.get(), bookPublisherEntry.get(), bookTotalPageEntry.get(), bookLastPageEntry.get(), bookFirstDateEntry.get(), datetime.now().strftime("%Y-%m-%d"), bookDayEntry.get(), bookNoteEntry.get("1.0",END), temp))
-    saveButton.place(x=450, y =350)
+    saveButton.place(x=450, y =400)
 
 
 def saveEditBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, judulBaru, penulisBaru, penerbitBaru, totalHalamanBaru, halamanTerakhirBaru, tanggalMulaiBacaBaru, tanggalTerakhirBacaBaru, hariPembacaanBaru, catatanBaru, instansBuku):
