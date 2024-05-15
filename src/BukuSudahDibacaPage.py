@@ -17,7 +17,7 @@ def createSudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
     for temp in DaftarBukuSudahDibaca.listBukuSudahDibaca:
         bookFrame = ctk.CTkFrame(root,
                                  width=800,
-                                 height=400,
+                                 height=440,
                                  border_color=color,
                                  border_width=3)
         bookFrame.pack(pady = 20)
@@ -41,15 +41,19 @@ def createSudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
                                       text="Durasi membaca (hari): "+str(temp.hariSelesai), 
                                       font=("Segoe UI Light", 20))
         bookFinishDateLabel.place(x=20,y=150)
+        bookLastDateLabel =ctk.CTkLabel(bookFrame, 
+                                      text="Tanggal terakhir membaca: "+str(temp.tanggalTerakhirBaca), 
+                                      font=("Segoe UI Light", 20))
+        bookLastDateLabel.place(x=20,y=180)
         bookNoteLabel = ctk.CTkLabel(bookFrame, 
                                       text="Catatan: ", 
                                       font=("Segoe UI Light", 20))
-        bookNoteLabel.place(x=20,y=180)
+        bookNoteLabel.place(x=20,y=210)
         bookNoteTextBox = ctk.CTkTextbox(bookFrame,
                                          width=670,
                                          height=130,
                                          font=("Segoe UI Light", 20))
-        bookNoteTextBox.place(x=100,y=180)
+        bookNoteTextBox.place(x=100,y=210)
         bookNoteTextBox.insert(1.0,temp.catatan)
         bookNoteTextBox.configure(state="disabled")
         #tombol untuk memindahkan buku yang sudah dibaca ke list buku yang sedang dibaca
@@ -59,7 +63,7 @@ def createSudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
                                         text="Baca Lagi!",
                                         font=("Segoe UI Light",20),
                                         command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: bacaLagiPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
-        readAgainButton.place(x=620,y=340)
+        readAgainButton.place(x=620,y=370)
 
         #tombol untuk menghapus buku yang ingin dibaca
         hapusBukuButton = ctk.CTkButton(bookFrame,
@@ -70,7 +74,7 @@ def createSudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
                                         fg_color="#B32B3D",
                                         hover_color="#821F2C",
                                         command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: hapusBukuSudahDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
-        hapusBukuButton.place(x= 450, y =340)
+        hapusBukuButton.place(x= 450, y =370)
 
 def hapusBukuSudahDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
     # print(title)
