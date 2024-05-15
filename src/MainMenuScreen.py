@@ -1,6 +1,5 @@
 from tkinter import *
 import customtkinter as ctk
-from PIL import Image
 import ButtonController as BC
 import LogoLoader as LL
 def create(root):

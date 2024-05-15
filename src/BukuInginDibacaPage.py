@@ -2,11 +2,9 @@ from Buku import *
 from tkinter import *
 from tkinter import messagebox
 import customtkinter as ctk
-from PIL import Image
 import ButtonController as BC
-import LogoLoader as LL
 from datetime import datetime
-
+import CustomWidget as CW
 LoadState.loadBuku()
 def createInginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton):
     #tombol untuk menambah buku baru
@@ -20,7 +18,7 @@ def createInginDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
     for temp in DaftarBukuInginDibaca.listBukuInginDibaca:
         bookFrame = ctk.CTkFrame(root,
                                  width=800,
-                                 height=200,
+                                 height=240,
                                  border_color=color,
                                  border_width=3)
         bookFrame.pack(pady = 20)
@@ -48,8 +46,15 @@ def createInginDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
                                         text="Mulai Baca!",
                                         font=("Segoe UI Light",20),
                                         command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: mulaiBacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
-        mulaiBacaButton.place(x=620,y=140)
-
+        mulaiBacaButton.place(x=620,y=180)
+        #tombol untuk mengedit buku yang ingin dibaca
+        editBukuButton = ctk.CTkButton(bookFrame,
+                                        width = 150,
+                                        height=40,
+                                        text="Edit Buku",
+                                        font=("Segoe UI Light",20),
+                                        command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: editBukuPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
+        editBukuButton.place(x=450,y=180)
         #tombol untuk menghapus buku yang ingin dibaca
         hapusBukuButton = ctk.CTkButton(bookFrame,
                                         width = 150,
@@ -59,8 +64,121 @@ def createInginDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
                                         fg_color="#B32B3D",
                                         hover_color="#821F2C",
                                         command=lambda root=root,indicatorArr=indicatorArr,bookFrame=bookFrame,title=temp.judul,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: hapusBukuInginDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title))
-        hapusBukuButton.place(x= 450, y =140)
-        
+        hapusBukuButton.place(x= 280, y =180)
+
+def editBukuPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
+  for widget in bookFrame.winfo_children():
+      widget.destroy()
+  promptLabel1 = ctk.CTkLabel(bookFrame,
+                              text="Apakah Anda ingin mengedit buku ini?",
+                              font=("Segoe UI Light", 20))
+  promptLabel1.place(x=230,y=10)
+  yesButton = ctk.CTkButton(bookFrame,
+                            width = 150,
+                            height=40,
+                            text="Ya",
+                            font=("Segoe UI Light",20),
+                            command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton,title=title:editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, bookFrame, title))
+  yesButton.place(x=200, y =180)
+  noButton = ctk.CTkButton(bookFrame,
+                              width = 150,
+                              height=40,
+                              text="Tidak",
+                              font=("Segoe UI Light",20),
+                              command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
+  noButton.place(x=450, y =180)
+
+def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, bookFrame, title):
+    for widget in bookFrame.winfo_children():
+      widget.destroy()
+    
+    bookIndex = DaftarBukuInginDibaca.getIndex(title)
+    temp = DaftarBukuInginDibaca.listBukuInginDibaca[bookIndex]
+    
+    # Create form edit book here
+    bookTitleLabel = ctk.CTkLabel(bookFrame,
+                              text="Judul buku: ",
+                              font=("Segoe UI Light", 16))
+    bookTitleLabel.place(x=20, y=10)
+
+    bookTitleEntry = ctk.CTkEntry(bookFrame,
+                                width=480,
+                                font=("Segoe UI Light", 16))
+    bookTitleEntry.place(x=300, y=10)
+    bookTitleEntry.insert(0, temp.judul)
+
+    bookWriterLabel = ctk.CTkLabel(bookFrame, 
+                                text="Penulis: ", 
+                                font=("Segoe UI Light", 16))
+    bookWriterLabel.place(x=20, y=50)
+
+    bookWriterEntry = ctk.CTkEntry(bookFrame,
+                                    width=480,
+                                    font=("Segoe UI Light", 16))
+    bookWriterEntry.place(x=300, y=50)
+    bookWriterEntry.insert(0, temp.penulis)
+
+    bookPublisherLabel = ctk.CTkLabel(bookFrame, 
+                                    text="Penerbit: ", 
+                                    font=("Segoe UI Light", 16))
+    bookPublisherLabel.place(x=20, y=90)
+
+    bookPublisherEntry = ctk.CTkEntry(bookFrame,
+                                    width=480,
+                                    font=("Segoe UI Light", 16))
+    bookPublisherEntry.place(x=300, y=90)
+    bookPublisherEntry.insert(0, temp.penerbit)
+
+    bookTotalPageLabel = ctk.CTkLabel(bookFrame, 
+                                    text="Jumlah halaman: ", 
+                                    font=("Segoe UI Light", 16))
+    bookTotalPageLabel.place(x=20, y=130)
+
+    bookTotalPageEntry = CW.IntegerSpinbox(bookFrame, width=150, step_size=1)
+    bookTotalPageEntry.place(x=300, y=130)
+    bookTotalPageEntry.set(temp.totalHalaman)
+
+    cancelButton = ctk.CTkButton(bookFrame,
+                                width = 150,
+                                height=40,
+                                text="Batal",
+                                fg_color="#B32B3D",
+                                hover_color="#821F2C",
+                                font=("Segoe UI Light",18),
+                                command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
+    cancelButton.place(x=200, y =180)
+    saveButton = ctk.CTkButton(bookFrame,
+                                width = 150,
+                                height=40,
+                                text="Simpan",
+                                font=("Segoe UI Light",18),
+                                command= lambda root=root,indicatorArr=indicatorArr,indicator=indicator,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: saveEditBuku(root,indicatorArr,indicator,color,defaultColor,buttonArr,currentButton, bookTitleEntry.get(), bookWriterEntry.get(), bookPublisherEntry.get(), bookTotalPageEntry.get(),temp))
+    saveButton.place(x=450, y =180)
+def saveEditBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, judulBaru, penulisBaru, penerbitBaru, totalHalamanBaru,instansBuku):
+       # Input Handling
+    if(judulBaru == "" or penulisBaru == "" or penerbitBaru == "" or totalHalamanBaru is None):
+        messagebox.showerror("Input kosong", "Semua bagian harus terisi!")
+        return
+
+    # Halaman terakhir yang dibaca tidak boleh lebih besar dari jumlah halaman dan tidak boleh kurang dari 0
+    if(int(totalHalamanBaru) <= 0):
+        messagebox.showerror("Input tidak valid", "Nilai halaman tidak valid!")
+        return
+    
+    if(len(judulBaru) > 75):
+        messagebox.showerror("Batas input maksimum", "Judul buku tidak boleh lebih dari 75 karakter!")
+        return
+    
+    if(len(penulisBaru) > 75):
+        messagebox.showerror("Batas input maksimum", "Nama penulis tidak boleh lebih dari 75 karakter!")
+        return
+    
+    if(len(penerbitBaru) > 75):
+        messagebox.showerror("Batas input maksimum", "Nama penerbit tidak boleh lebih dari 75 karakter!")
+        return
+    instansBuku.editBuku(judulBaru, penulisBaru, penerbitBaru, totalHalamanBaru)
+    SaveState.saveBuku()
+    BC.inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton)
 def hapusBukuInginDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
     for widget in bookFrame.winfo_children():
       widget.destroy()
@@ -83,7 +201,7 @@ def hapusBukuInginDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,b
                               fg_color="#B32B3D",
                               hover_color="#821F2C",
                               command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton,title=title:deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title))
-    yesButton.place(x=200, y =140)
+    yesButton.place(x=200, y =180)
 
     noButton = ctk.CTkButton(bookFrame,
                               width = 150,
@@ -91,7 +209,7 @@ def hapusBukuInginDibacaPrompt(root,indicatorArr,indicator, color,defaultColor,b
                               text="Tidak",
                               font=("Segoe UI Light",20),
                               command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
-    noButton.place(x=450, y =140)
+    noButton.place(x=450, y =180)
 
 def mulaiBacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,bookFrame,title):
     for widget in bookFrame.winfo_children():
@@ -108,7 +226,7 @@ def mulaiBacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cu
                               text="Ya",
                               font=("Segoe UI Light",20),
                               command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton,title=title:mulaiBaca(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title))
-    yesButton.place(x=200, y =140)
+    yesButton.place(x=200, y =180)
 
     noButton = ctk.CTkButton(bookFrame,
                               width = 150,
@@ -116,7 +234,7 @@ def mulaiBacaPrompt(root,indicatorArr,indicator, color,defaultColor,buttonArr,cu
                               text="Tidak",
                               font=("Segoe UI Light",20),
                               command=lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.inginDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
-    noButton.place(x=450, y =140)
+    noButton.place(x=450, y =180)
 def deleteBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton,title):
     DaftarBukuInginDibaca.hapusBuku(title)
     SaveState.saveBuku()

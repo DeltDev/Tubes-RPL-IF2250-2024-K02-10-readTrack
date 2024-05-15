@@ -1,9 +1,7 @@
 from Buku import *
 from tkinter import *
 import customtkinter as ctk
-from PIL import Image
 import ButtonController as BC
-import LogoLoader as LL
 from datetime import datetime
 
 LoadState.loadBuku()
@@ -42,7 +40,7 @@ def createSudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
                                       font=("Segoe UI Light", 20))
         bookFinishDateLabel.place(x=20,y=150)
         bookLastDateLabel =ctk.CTkLabel(bookFrame, 
-                                      text="Tanggal terakhir membaca: "+str(temp.tanggalTerakhirBaca), 
+                                      text="Tanggal selesai membaca: "+str(temp.tanggalTerakhirBaca), 
                                       font=("Segoe UI Light", 20))
         bookLastDateLabel.place(x=20,y=180)
         bookNoteLabel = ctk.CTkLabel(bookFrame, 

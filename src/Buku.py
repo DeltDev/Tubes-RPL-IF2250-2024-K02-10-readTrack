@@ -155,7 +155,6 @@ class FormIsiDataBuku:
         totalHalaman = int(input("Masukkan total halaman : "))
         bukuAdd = BukuInginDibaca(judul=Judul, penulis=Penulis, penerbit=Penerbit, totalHalaman=totalHalaman)
         DaftarBukuInginDibaca.tambahBuku(bukuAdd)
-        print("Buku berhasil ditambah ke Daftar buku yang ingin dibaca")
 
 
 class FormKemajuanBuku:
@@ -175,7 +174,6 @@ class FormKemajuanBuku:
                 DaftarBukuSedangDibaca.listBukuSedangDibaca[i].halamanTerakhir = DaftarBukuSedangDibaca.listBukuSedangDibaca[i].totalHalaman
             else:
                 DaftarBukuSedangDibaca.listBukuSedangDibaca[i].halamanTerakhir += tambahHalaman
-                print(f"Buku sudah ditambah halaman terakhirnya sebanyak {tambahHalaman}")
             CekSelesai.CekSelesai(judul)
         else:
             raise Exception(f"tidak ditemukan buku yang sedang dibaca dengan judul {judul}")
@@ -205,12 +203,10 @@ class PemindahBuku:
             temp = DaftarBukuInginDibaca.listBukuInginDibaca[i]
             DaftarBukuInginDibaca.hapusBuku(temp.judul)
             DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, tanggal, 0, catatan))
-            print("Buku berhasil dipindah dari daftar ingin dibaca ke daftar sedang dibaca")
         elif (foundSudahDibaca):
             temp = DaftarBukuSudahDibaca.listBukuSudahDibaca[i]
             DaftarBukuSudahDibaca.hapusBuku(temp.judul)
             DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, tanggal, 0, catatan))
-            print("Buku berhasil dipindah dari daftar sudah dibaca ke daftar sedang dibaca")
         else:
             raise Exception(f"tidak ditemukan buku ingin dibaca atau sudah dibaca dengan judul {judul}")
 
@@ -227,11 +223,8 @@ class CekSelesai:
         if found:
             temp = DaftarBukuSedangDibaca.listBukuSedangDibaca[i]
             if temp.halamanTerakhir == temp.totalHalaman:
-                print("Buku sudah selesai dibaca... memindahkan buku ke daftar sudah dibaca")
                 DaftarBukuSedangDibaca.hapusBuku(temp.judul)
                 DaftarBukuSudahDibaca.tambahBuku(BukuSudahDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, temp.hariPembacaan, temp.catatan, temp.tanggalTerakhirBaca))
-            else:
-                print("Buku belum selesai dibaca")
         else:
             raise Exception(f"tidak ditemukan buku yang sedang dibaca dengan judul {judul}")
 
@@ -273,5 +266,4 @@ class SaveState:
         pickle.dump(DaftarBukuInginDibaca.listBukuInginDibaca, open("db/BukuInginDibaca.dat", "wb"))
         pickle.dump(DaftarBukuSedangDibaca.listBukuSedangDibaca, open("db/BukuSedangDibaca.dat", "wb"))
         pickle.dump(DaftarBukuSudahDibaca.listBukuSudahDibaca, open("db/BukuSudahDibaca.dat", "wb"))
-        print("State sekarang berhasil disimpan ke database")
 

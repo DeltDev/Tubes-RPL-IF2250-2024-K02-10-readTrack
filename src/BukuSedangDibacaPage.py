@@ -2,9 +2,7 @@ from Buku import *
 from tkinter import *
 from tkinter import messagebox  
 import customtkinter as ctk
-from PIL import Image
 import ButtonController as BC
-import LogoLoader as LL
 import CustomWidget as CW
 
 LoadState.loadBuku()
