@@ -38,7 +38,7 @@ def createSudahDibacaPage(root,indicatorArr,indicator, color,defaultColor,button
                                       font=("Segoe UI Light", 20))
         bookTotalPageLabel.place(x=20,y=120)
         bookFinishDateLabel =ctk.CTkLabel(bookFrame, 
-                                      text="Durasi membaca (hari): "+str(temp.hariSelesai), 
+                                      text="Durasi membaca: "+str(temp.hariSelesai)+" hari", 
                                       font=("Segoe UI Light", 20))
         bookFinishDateLabel.place(x=20,y=150)
         bookLastDateLabel =ctk.CTkLabel(bookFrame, 

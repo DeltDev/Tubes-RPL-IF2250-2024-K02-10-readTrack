@@ -51,7 +51,7 @@ def createSedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,butto
                                       font=("Segoe UI Light", 20))
         bookLastDateLabel.place(x=20,y=210)
         bookDayLabel = ctk.CTkLabel(bookFrame, 
-                                      text="Hari pembacaan: "+str(temp.hariPembacaan), 
+                                      text="Durasi membaca: "+str(temp.hariPembacaan)+" hari", 
                                       font=("Segoe UI Light", 20))
         bookDayLabel.place(x=20,y=240)
         bookNoteLabel = ctk.CTkLabel(bookFrame, 
@@ -243,25 +243,15 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
     bookLastDateEntry.insert(0, temp.tanggalTerakhirBaca)
     bookLastDateEntry.configure(state='disabled')
 
-    bookDayLabel = ctk.CTkLabel(bookFrame, 
-                                text="Hari pembacaan: ", 
-                                font=("Segoe UI Light", 16))
-    bookDayLabel.place(x=20, y=290)
-    # BookDayEntry as SpinBox
-
-    bookDayEntry = CW.IntegerSpinbox(bookFrame, width=120, step_size=1)
-    bookDayEntry.place(x=300, y=290)
-    bookDayEntry.set(temp.hariPembacaan)
-
     bookNoteLabel = ctk.CTkLabel(bookFrame, 
                                 text="Catatan: ", 
                                 font=("Segoe UI Light", 16))
-    bookNoteLabel.place(x=20, y=330)
+    bookNoteLabel.place(x=20, y=290)
     bookNoteEntry = ctk.CTkTextbox(bookFrame,
                                 width=480,
                                 height=60,
                                 font=("Segoe UI Light", 16))
-    bookNoteEntry.place(x=300, y=330)
+    bookNoteEntry.place(x=300, y=290)
     bookNoteEntry.insert(1.0, temp.catatan)
 
 
@@ -275,13 +265,18 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
                                 font=("Segoe UI Light",18),
                                 command= lambda root=root,indicatorArr=indicatorArr,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: BC.sedangDibacaPage(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton))
     cancelButton.place(x=200, y =400)
+
+    #hitung selisih hari
+    dayStart =datetime.strptime(bookFirstDateEntry.get(), "%Y-%m-%d")
+    dayNow = datetime.strptime(datetime.now().strftime("%Y-%m-%d"), "%Y-%m-%d")
+    dayDifference = int((dayNow-dayStart).days)
     # Create button to save edited book
     saveButton = ctk.CTkButton(bookFrame,
                                 width = 150,
                                 height=40,
                                 text="Simpan",
                                 font=("Segoe UI Light",18),
-                                command= lambda root=root,indicatorArr=indicatorArr,indicator=indicator,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: saveEditBuku(root,indicatorArr,indicator,color,defaultColor,buttonArr,currentButton, bookTitleEntry.get(), bookWriterEntry.get(), bookPublisherEntry.get(), bookTotalPageEntry.get(), bookLastPageEntry.get(), bookFirstDateEntry.get(), datetime.now().strftime("%Y-%m-%d"), bookDayEntry.get(), bookNoteEntry.get("1.0",END), temp))
+                                command= lambda root=root,indicatorArr=indicatorArr,indicator=indicator,color=color,defaultColor=defaultColor,buttonArr=buttonArr,currentButton=currentButton: saveEditBuku(root,indicatorArr,indicator,color,defaultColor,buttonArr,currentButton, bookTitleEntry.get(), bookWriterEntry.get(), bookPublisherEntry.get(), bookTotalPageEntry.get(), bookLastPageEntry.get(), bookFirstDateEntry.get(), datetime.now().strftime("%Y-%m-%d"), dayDifference, bookNoteEntry.get("1.0",END), temp))
     saveButton.place(x=450, y =400)
 
 
