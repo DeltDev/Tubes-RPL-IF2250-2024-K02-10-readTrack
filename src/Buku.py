@@ -204,12 +204,12 @@ class PemindahBuku:
         if (foundInginDibaca):
             temp = DaftarBukuInginDibaca.listBukuInginDibaca[i]
             DaftarBukuInginDibaca.hapusBuku(temp.judul)
-            DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, tanggal, 1, catatan))
+            DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, tanggal, 0, catatan))
             print("Buku berhasil dipindah dari daftar ingin dibaca ke daftar sedang dibaca")
         elif (foundSudahDibaca):
             temp = DaftarBukuSudahDibaca.listBukuSudahDibaca[i]
             DaftarBukuSudahDibaca.hapusBuku(temp.judul)
-            DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, tanggal, 1, catatan))
+            DaftarBukuSedangDibaca.tambahBuku(BukuSedangDibaca(temp.judul, temp.penulis, temp.penerbit, temp.totalHalaman, 0, tanggal, tanggal, 0, catatan))
             print("Buku berhasil dipindah dari daftar sudah dibaca ke daftar sedang dibaca")
         else:
             raise Exception(f"tidak ditemukan buku ingin dibaca atau sudah dibaca dengan judul {judul}")

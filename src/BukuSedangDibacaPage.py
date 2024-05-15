@@ -288,8 +288,8 @@ def saveEditBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
         return
 
     # Halaman terakhir yang dibaca tidak boleh lebih besar dari jumlah halaman dan tidak boleh kurang dari 0
-    if(int(halamanTerakhirBaru) <= 0 or int(totalHalamanBaru) <= 0):
-        messagebox.showerror("Input tidak valid", "Nilai halaman harus bilangan bulat positif!")
+    if(int(halamanTerakhirBaru) < 0 or int(totalHalamanBaru) < 0):
+        messagebox.showerror("Input tidak valid", "Nilai halaman tidak valid!")
         return
     
     if(len(judulBaru) > 75):
