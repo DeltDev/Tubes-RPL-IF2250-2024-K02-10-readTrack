@@ -350,6 +350,9 @@ def tambahBuku(root, indicatorArr, indicator, color, defaultColor, buttonArr, cu
         messagebox.showerror("Input kosong", "Semua bagian harus terisi!")
         return
       
+      if ((DaftarBukuInginDibaca.getIndex(title) != -1) or (DaftarBukuSedangDibaca.getIndex(title) != -1) or (DaftarBukuSudahDibaca.getIndex(title) != -1)):
+         messagebox.showerror("Input tidak valid", "Judul buku sudah ada di database!")
+         return
       DaftarBukuInginDibaca.tambahBuku(BukuInginDibaca(title, penulis, penerbit, halaman))
       SaveState.saveBuku()
       BC.inginDibacaPage(root, indicatorArr, indicator, color, defaultColor, buttonArr, currentButton)

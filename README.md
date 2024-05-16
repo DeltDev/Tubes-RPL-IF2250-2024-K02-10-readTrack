@@ -27,9 +27,9 @@
 
 # Daftar Tabel Basis Data
 Data dari aplikasi disimpan ke sebuah Binary String di file .dat dengan bantuan pickle. Berikut adalah daftar tabel basis data: <br />
-1. Tabel BukuInginDibaca (BukuInginDibaca.dat) : Menyimpan atribut dari buku-buku di daftar buku yang ingin dibaca
-2. Tabel BukuSedangDibaca (BukuSedangDibaca.dat) : Menyimpan atribut dari buku-buku di daftar buku yang sedang dibaca
-3. Tabel BukuSudahDibaca (BukuSudahDibaca.dat) : Menyimpan atribut dari buku-buku di daftar buku yang sudah dibaca
+1. Tabel BukuInginDibaca (BukuInginDibaca.dat) : Menyimpan atribut dari buku-buku di daftar buku yang ingin dibaca, seperti atribut judul buku (primary key), penulis, penerbit, dan total halaman.
+2. Tabel BukuSedangDibaca (BukuSedangDibaca.dat) : Menyimpan atribut dari buku-buku di daftar buku yang sedang dibaca, seperti atribut di BukuInginDibaca ditambah halaman terakhir dibaca, tanggal mulai dibaca, tanggal terakhir dibaca, jumlah hari pembacaan, dan catatan.
+3. Tabel BukuSudahDibaca (BukuSudahDibaca.dat) : Menyimpan atribut dari buku-buku di daftar buku yang sudah dibaca, seperti atribut di BukuInginDibaca ditambah jumlah hari yang dibutuhkan untuk menyelesaikan buku, tanggal selesai dibaca, dan catatan.
   
 
 # Anggota Kelompok
