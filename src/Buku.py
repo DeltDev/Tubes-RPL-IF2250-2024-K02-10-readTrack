@@ -255,7 +255,7 @@ class CetakBuku:
 
 class LoadState:
     @staticmethod
-    def loadBuku(databaseFolder : str = "db") -> None:
+    def loadBuku(databaseFolder : str = "../src/db") -> None:
         DaftarBukuInginDibaca.listBukuInginDibaca = pickle.load(open(f"{databaseFolder}/BukuInginDibaca.dat", "rb"))
         DaftarBukuSedangDibaca.listBukuSedangDibaca = pickle.load(open(f"{databaseFolder}/BukuSedangDibaca.dat", "rb"))
         DaftarBukuSudahDibaca.listBukuSudahDibaca = pickle.load(open(f"{databaseFolder}/BukuSudahDibaca.dat", "rb"))
@@ -263,7 +263,7 @@ class LoadState:
 class SaveState:
     @staticmethod
     def saveBuku() -> None:
-        pickle.dump(DaftarBukuInginDibaca.listBukuInginDibaca, open("db/BukuInginDibaca.dat", "wb"))
-        pickle.dump(DaftarBukuSedangDibaca.listBukuSedangDibaca, open("db/BukuSedangDibaca.dat", "wb"))
-        pickle.dump(DaftarBukuSudahDibaca.listBukuSudahDibaca, open("db/BukuSudahDibaca.dat", "wb"))
+        pickle.dump(DaftarBukuInginDibaca.listBukuInginDibaca, open("../src/db/BukuInginDibaca.dat", "wb"))
+        pickle.dump(DaftarBukuSedangDibaca.listBukuSedangDibaca, open("../src/db/BukuSedangDibaca.dat", "wb"))
+        pickle.dump(DaftarBukuSudahDibaca.listBukuSudahDibaca, open("../src/db/BukuSudahDibaca.dat", "wb"))
 
