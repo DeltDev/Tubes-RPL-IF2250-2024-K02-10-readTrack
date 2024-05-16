@@ -24,7 +24,13 @@
 6. Backend Kelas Buku dan Basis Data - M. Athaullah Daffa Kusuma M. (13522044),Christopher Brian (13522106)
 7. GUI - Akbar Al Fattah (13522036)
 8. Enkripsi dan dekripsi data, muat data, dan simpan data - Maria Flora Renata Siringoringo (13522010), M. Athaullah Daffa Kusuma M. (13522044)
+
 # Daftar Tabel Basis Data
+Data dari aplikasi disimpan ke sebuah Binary String di file .dat dengan bantuan pickle. Berikut adalah daftar tabel basis data: <br />
+1. Tabel BukuInginDibaca (BukuInginDibaca.dat) : Menyimpan atribut dari buku-buku di daftar buku yang ingin dibaca
+2. Tabel BukuSedangDibaca (BukuSedangDibaca.dat) : Menyimpan atribut dari buku-buku di daftar buku yang sedang dibaca
+3. Tabel BukuSudahDibaca (BukuSudahDibaca.dat) : Menyimpan atribut dari buku-buku di daftar buku yang sudah dibaca
+  
 
 # Anggota Kelompok
 ## Kelompok 10 K2 Tugas Besar IF2250 Rekayasa Perangkat Lunak
