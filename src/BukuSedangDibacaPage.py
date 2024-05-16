@@ -330,10 +330,12 @@ def editBukuForm(root,indicatorArr,indicator, color,defaultColor,buttonArr,curre
 def saveEditBuku(root,indicatorArr,indicator, color,defaultColor,buttonArr,currentButton, judulBaru, penulisBaru, penerbitBaru, totalHalamanBaru, halamanTerakhirBaru, tanggalMulaiBacaBaru, tanggalTerakhirBacaBaru, hariPembacaanBaru, catatanBaru, instansBuku):
 
     # Input Handling
-    if(judulBaru == "" or penulisBaru == "" or penerbitBaru == "" or totalHalamanBaru is None or halamanTerakhirBaru is None or hariPembacaanBaru is None):
+    if(judulBaru == "" or penulisBaru == "" or penerbitBaru == "" or hariPembacaanBaru is None):
         messagebox.showerror("Input kosong", "Hanya catatan yang boleh kosong!")
         return
-
+    if(totalHalamanBaru is None or halamanTerakhirBaru is None):
+        messagebox.showerror("Input tidak valid", "Nilai halaman tidak valid!")
+        return
     # Halaman terakhir yang dibaca tidak boleh lebih besar dari jumlah halaman dan tidak boleh kurang dari 0
     if(int(halamanTerakhirBaru) < 0 or int(totalHalamanBaru) <= 0):
         messagebox.showerror("Input tidak valid", "Nilai halaman tidak valid!")
