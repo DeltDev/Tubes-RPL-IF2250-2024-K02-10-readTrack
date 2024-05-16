@@ -10,7 +10,7 @@ root = ctk.CTk()
 root.resizable(False, False)
 root.title('readTrack - Aplikasi Tracker Buku')
 root.geometry('1300x740')
-root.iconbitmap("images/readTracklogo.ico")
+root.iconbitmap("../img/readTracklogo.ico")
 
 #buka 
 ss.create(root)
