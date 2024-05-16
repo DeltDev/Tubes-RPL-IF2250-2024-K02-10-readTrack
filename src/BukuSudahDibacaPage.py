@@ -1,5 +1,4 @@
 from Buku import *
-from tkinter import *
 import customtkinter as ctk
 import ButtonController as BC
 from datetime import datetime

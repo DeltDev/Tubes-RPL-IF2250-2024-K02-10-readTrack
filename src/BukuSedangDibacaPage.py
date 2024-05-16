@@ -1,5 +1,4 @@
 from Buku import *
-from tkinter import *
 from tkinter import messagebox  
 import customtkinter as ctk
 import ButtonController as BC
